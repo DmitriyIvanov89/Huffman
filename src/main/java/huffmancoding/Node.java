@@ -1,9 +1,9 @@
 package huffmancoding;
 
-public class Node {
+public class Node implements Comparable<Node> {
 
     private final int frequency;
-    private final char symbol;
+    private final Character symbol;
     private Node leftChild;
     private Node rightChild;
 
@@ -13,7 +13,7 @@ public class Node {
         this.symbol = symbol;
     }
 
-    public Node(int weight, char symbol, Node leftChild, Node rightChild) {
+    public Node(Character symbol, int frequency, Node leftChild, Node rightChild) {
         this.frequency = leftChild.frequency + rightChild.frequency;
         this.symbol = symbol;
         this.leftChild = leftChild;
@@ -28,4 +28,8 @@ public class Node {
         return symbol;
     }
 
+    @Override
+    public int compareTo(Node o) {
+        return o.frequency - frequency;
+    }
 }
