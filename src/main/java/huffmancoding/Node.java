@@ -1,8 +1,5 @@
 package huffmancoding;
 
-<<<<<<< HEAD
-public class Node {
-=======
 public class Node implements Comparable<Node> {
 
     private final int frequency;
@@ -53,5 +50,4 @@ public class Node implements Comparable<Node> {
         }
         return null;
     }
->>>>>>> 8e1cd023e27c0415b14b60c65105a771a83348c9
 }
