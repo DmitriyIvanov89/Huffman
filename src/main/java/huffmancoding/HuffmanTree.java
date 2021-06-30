@@ -2,14 +2,16 @@ package huffmancoding;
 
 import java.util.*;
 
-public class Tree {
+public class HuffmanTree {
 
-    private String text;
-    private Node node;
-    private Map<Character, Integer> frequencies;
+    private final String text;
 
-    public Map<Character, Integer> countFrequency(String text) {
-        frequencies = new HashMap<>();
+    public HuffmanTree(String text) {
+        this.text = text;
+    }
+
+    public Node buildHuffmanTree() {
+        Map<Character, Integer> frequencies = new HashMap<>();
         for (int i = 0; i < text.length(); i++) {
             char symbol = text.charAt(i);
             if (frequencies.containsKey(symbol)) {
@@ -18,14 +20,12 @@ public class Tree {
                 frequencies.put(symbol, 1);
             }
         }
-        return frequencies;
-    }
 
-    public Node buildHuffmanTree(String text) {
         List<Node> nodes = new ArrayList<>();
-        for (Character c : frequencies.keySet()) {
-            nodes.add(new Node(c, frequencies.get(c)));
+        for (Map.Entry<Character, Integer> entry : frequencies.entrySet()) {
+            nodes.add(new Node(entry.getKey(), entry.getValue()));
         }
+
         while (nodes.size() > 1) {
             Collections.sort(nodes);
             Node left = nodes.remove(nodes.size() - 1);
@@ -35,5 +35,4 @@ public class Tree {
         }
         return nodes.get(0);
     }
-
 }

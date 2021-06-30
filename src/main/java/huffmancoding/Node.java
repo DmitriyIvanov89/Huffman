@@ -13,7 +13,7 @@ public class Node implements Comparable<Node> {
         this.frequency = frequency;
     }
 
-    //parent
+    //resultNode
     public Node(Character symbol, int frequency, Node leftChild, Node rightChild) {
         this.symbol = symbol;
         this.frequency = leftChild.frequency + rightChild.frequency;
