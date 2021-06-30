@@ -1,5 +1,8 @@
 import huffmancoding.HuffmanTree;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Huffman {
     public static void main(String[] args) {
 
@@ -7,6 +10,8 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
+        Map<Character, String> codes = new HashMap<>();
+        
 
     }
 }

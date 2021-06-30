@@ -14,7 +14,7 @@ public class Node implements Comparable<Node> {
 
     public Node(Character symbol, int frequency, Node leftChild, Node rightChild) {
         this.symbol = symbol;
-        this.frequency = leftChild.frequency + rightChild.frequency;
+        this.frequency = frequency;
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
