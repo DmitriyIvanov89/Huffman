@@ -7,13 +7,11 @@ public class Node implements Comparable<Node> {
     private Node leftChild;
     private Node rightChild;
 
-    //child
     public Node(Character symbol, int frequency) {
         this.symbol = symbol;
         this.frequency = frequency;
     }
 
-    //resultNode
     public Node(Character symbol, int frequency, Node leftChild, Node rightChild) {
         this.symbol = symbol;
         this.frequency = leftChild.frequency + rightChild.frequency;
@@ -34,8 +32,22 @@ public class Node implements Comparable<Node> {
         return o.frequency - frequency;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Node: %s, frequency: %s", this.getSymbol(), this.getFrequency());
+    public String encode(Node root, String path) {
+        if (root == null) {
+            return path;
+        }
+        if (leftChild != null) {
+            path = leftChild.encode(root, path + "0");
+            if (path != null) {
+                return path;
+            }
+        }
+        if (rightChild != null) {
+            path = rightChild.encode(root, path + "1");
+            if (path != null) {
+                return path;
+            }
+        }
+        return null;
     }
 }
