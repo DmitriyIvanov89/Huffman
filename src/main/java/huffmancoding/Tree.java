@@ -4,14 +4,24 @@ import java.util.*;
 
 public class Tree {
 
+    private String text;
     private Node node;
     private Map<Character, Integer> frequencies;
 
-    public Tree(Map<Character, Integer> frequencies) {
-        this.frequencies = new HashMap<>();
+    public Map<Character, Integer> countFrequency(String text) {
+        frequencies = new HashMap<>();
+        for (int i = 0; i < text.length(); i++) {
+            char symbol = text.charAt(i);
+            if (frequencies.containsKey(symbol)) {
+                frequencies.put(symbol, frequencies.get(symbol) + 1);
+            } else {
+                frequencies.put(symbol, 1);
+            }
+        }
+        return frequencies;
     }
 
-    public Node createHuffmanTree() {
+    public Node buildHuffmanTree(String text) {
         List<Node> nodes = new ArrayList<>();
         for (Character c : frequencies.keySet()) {
             nodes.add(new Node(c, frequencies.get(c)));
