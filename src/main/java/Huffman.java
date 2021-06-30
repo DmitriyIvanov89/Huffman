@@ -1,6 +1,5 @@
 import huffmancoding.Frequency;
-
-import java.util.Map;
+import huffmancoding.Tree;
 
 public class Huffman {
     public static void main(String[] args) {
@@ -9,10 +8,8 @@ public class Huffman {
 
         Frequency frequency = new Frequency(text);
 
-        for (Map.Entry<Character, Integer> entry : frequency.countFrequency().entrySet()) {
-            System.out.println(String.format("symbol: %s, frequency: %s", entry.getKey(), entry.getValue()));
-        }
-
+        Tree huffman = new Tree(frequency.countFrequency());
+        System.out.println(huffman.createHuffmanTree());
 
 
     }
