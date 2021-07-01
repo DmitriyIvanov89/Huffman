@@ -5,47 +5,43 @@ import java.util.Map;
 
 public class Archiver {
 
-    private final String text;
-    private final HuffmanTree tree;
-    private Map<Character, String> codes;
-
-    public Archiver(String text, HuffmanTree tree) {
-        this.text = text;
-        this.tree = tree;
-    }
-
-    public Map<Character, String> generateCodesTable() {
-        codes = new HashMap<>();
-        Node root = tree.getNodes().get(0);
-        for (Character c : tree.getFrequencies().keySet()) {
-            codes.put(c, root.encode(c, ""));
-        }
-        return codes;
-    }
-
-    public String encodeText() {
+    public static CompressedFile compress(String text) {
+        HuffmanTree tree = new HuffmanTree(text);
+        Map<Character, String> codes = new HashMap<>();
+        fillCodesTable(tree.getRoot(), "", codes);
         StringBuilder encoded = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             encoded.append(codes.get(text.charAt(i)));
         }
-        return encoded.toString();
+        System.out.println(encoded.toString());
+        return new CompressedFile(encoded.toString(), tree.getFrequencies());
     }
 
-    public String decodeCodes(String encoded, HuffmanTree tree) {
+    public static String decompress(CompressedFile compressedFile) {
         StringBuilder decoded = new StringBuilder();
-        Node root = tree.getNodes().get(0);
-        Node currNode = root;
-        for (int i = 0; i < encoded.length(); i++) {
-            if (encoded.charAt(i) == '0') {
+        HuffmanTree tree = new HuffmanTree(compressedFile.getFrequencies());
+        Node currNode = tree.getRoot();
+        for (int i = 0; i < compressedFile.getEncoded().length(); i++) {
+            if (compressedFile.getEncoded().charAt(i) == '0') {
                 currNode = currNode.getLeft();
             } else {
                 currNode = currNode.getRight();
             }
             if (currNode.getSymbol() != null) {
                 decoded.append(currNode.getSymbol());
-                currNode = root;
+                currNode = tree.getRoot();
             }
         }
         return decoded.toString();
+    }
+
+    private static void fillCodesTable(Node node, String path, Map<Character, String> codes) {
+        if (node.getLeft() != null) {
+            fillCodesTable(node.getLeft(), path + 0, codes);
+        }
+        if (node.getRight() != null) {
+            fillCodesTable(node.getRight(), path + 1, codes);
+        }
+        codes.put(node.getSymbol(), path);
     }
 }

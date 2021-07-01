@@ -39,23 +39,4 @@ public class Node implements Comparable<Node> {
     public int compareTo(Node o) {
         return o.frequency - frequency;
     }
-
-    public String encode(Character currChar, String parentPath) {
-        if (symbol == currChar) {
-            return parentPath;
-        }
-        if (left != null) {
-            String path = left.encode(currChar, parentPath + 0);
-            if (path != null) {
-                return path;
-            }
-        }
-        if (right != null) {
-            String path = right.encode(currChar, parentPath + 1);
-            if (path != null) {
-                return path;
-            }
-        }
-        return null;
-    }
 }

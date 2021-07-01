@@ -4,26 +4,12 @@ import java.util.*;
 
 public class HuffmanTree {
 
-    private final String text;
+    private Node root;
     private Map<Character, Integer> frequencies;
-    private List<Node> nodes;
 
-    public HuffmanTree(String text) {
-        this.text = text;
-    }
-
-    public Node buildHuffmanTree() {
-        frequencies = new HashMap<>();
-        for (int i = 0; i < text.length(); i++) {
-            char symbol = text.charAt(i);
-            if (frequencies.containsKey(symbol)) {
-                frequencies.put(symbol, frequencies.get(symbol) + 1);
-            } else {
-                frequencies.put(symbol, 1);
-            }
-        }
-
-        nodes = new ArrayList<>();
+    public HuffmanTree(Map<Character, Integer> frequencies) {
+        this.frequencies = frequencies;
+        List<Node> nodes = new ArrayList<>();
         for (Map.Entry<Character, Integer> entry : frequencies.entrySet()) {
             nodes.add(new Node(entry.getKey(), entry.getValue()));
         }
@@ -35,14 +21,32 @@ public class HuffmanTree {
             Node parent = new Node(null, left.getFrequency() + right.getFrequency(), left, right);
             nodes.add(parent);
         }
-        return nodes.get(0);
+
+        this.root = nodes.get(0);
+    }
+
+    public HuffmanTree(String text) {
+        new HuffmanTree(countFrequencies(text));
+    }
+
+    public Node getRoot() {
+        return root;
     }
 
     public Map<Character, Integer> getFrequencies() {
         return frequencies;
     }
 
-    public List<Node> getNodes() {
-        return nodes;
+    private Map<Character, Integer> countFrequencies(String text) {
+        Map<Character, Integer> frequencies = new HashMap<>();
+        for (int i = 0; i < text.length(); i++) {
+            char symbol = text.charAt(i);
+            if (frequencies.containsKey(symbol)) {
+                frequencies.put(symbol, frequencies.get(symbol) + 1);
+            } else {
+                frequencies.put(symbol, 1);
+            }
+        }
+        return frequencies;
     }
 }
