@@ -6,7 +6,7 @@ import java.util.Map;
 public class Huffman {
     public static void main(String[] args) {
 
-        String text = "My name is Dmitriy";
+        String text = "All cats are beautiful!";
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
