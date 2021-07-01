@@ -9,8 +9,11 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
+
         for (Map.Entry<Character, String> entry : tree.generateCodesTable().entrySet()) {
             System.out.println(entry.toString());
         }
+
+
     }
 }

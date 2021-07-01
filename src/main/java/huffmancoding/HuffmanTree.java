@@ -7,7 +7,6 @@ public class HuffmanTree {
     private final String text;
     private Map<Character, Integer> frequencies;
     private List<Node> nodes;
-    private Node root;
 
     public HuffmanTree(String text) {
         this.text = text;
@@ -31,8 +30,8 @@ public class HuffmanTree {
 
         while (nodes.size() > 1) {
             Collections.sort(nodes);
-            Node left = nodes.remove(nodes.size() - 1);
             Node right = nodes.remove(nodes.size() - 1);
+            Node left = nodes.remove(nodes.size() - 1);
             Node parent = new Node(null, left.getFrequency() + right.getFrequency(), left, right);
             nodes.add(parent);
         }
@@ -41,7 +40,7 @@ public class HuffmanTree {
 
     public Map<Character, String> generateCodesTable() {
         Map<Character, String> codes = new HashMap<>();
-        root = nodes.get(0);
+        Node root = nodes.get(0);
         for (Character c : frequencies.keySet()) {
             codes.put(c, root.encode(c, ""));
         }
