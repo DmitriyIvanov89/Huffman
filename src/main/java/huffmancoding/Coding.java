@@ -7,17 +7,17 @@ import java.util.Map;
 
 public class Coding {
 
-    private String text;
-    private HuffmanTree tree;
-    private List<Node> nodes;
+    private final String text;
+    private final HuffmanTree tree;
     private Map<Character, Integer> frequencies;
+    private List<Node> nodes;
     private Map<Character, String> codes;
 
     public Coding(String text, HuffmanTree tree) {
         this.text = text;
+        this.tree = tree;
         this.frequencies = new HashMap<>();
         this.nodes = new ArrayList<>();
-        this.tree = tree;
     }
 
     public Map<Character, String> generateCodesTable() {
