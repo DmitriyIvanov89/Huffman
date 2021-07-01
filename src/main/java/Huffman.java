@@ -16,12 +16,12 @@ public class Huffman {
         System.out.println("Generated codes table:");
 
         for (Map.Entry<Character, String> entry : archiver.generateCodesTable().entrySet()) {
-            System.out.println(String.format("symbol: %s, code: %s", entry.getKey(), entry.getValue()));
+            System.out.printf("symbol: %s, code: %s%n", entry.getKey(), entry.getValue());
         }
 
-        System.out.println(String.format("Coded text: %s" + "\n", archiver.encodeText()));
+        System.out.printf("Coded text: %s" + "\n", archiver.encodeText());
 
-        System.out.println(String.format("Decoded text: %s" + "\n", archiver.decodeCodes(archiver.encodeText(), tree)));
+        System.out.printf("Decoded text: %s" + "\n", archiver.decodeCodes(archiver.encodeText(), tree));
 
     }
 }
