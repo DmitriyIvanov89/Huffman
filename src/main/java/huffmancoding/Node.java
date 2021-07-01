@@ -31,7 +31,7 @@ public class Node implements Comparable<Node> {
         return frequency;
     }
 
-    public char getSymbol() {
+    public Character getSymbol() {
         return symbol;
     }
 

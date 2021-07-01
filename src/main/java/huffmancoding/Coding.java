@@ -47,6 +47,11 @@ public class Coding {
             } else {
                 currNode = currNode.getRight();
             }
+            if (currNode.getSymbol() != null) {
+                decoded.append(currNode.getSymbol());
+                currNode = root;
+            }
         }
+        return decoded.toString();
     }
 }
