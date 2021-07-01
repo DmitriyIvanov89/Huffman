@@ -1,3 +1,4 @@
+import huffmancoding.Coding;
 import huffmancoding.HuffmanTree;
 
 import java.util.Map;
@@ -9,11 +10,9 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
-
-        for (Map.Entry<Character, String> entry : tree.generateCodesTable().entrySet()) {
-            System.out.println(entry.toString());
-        }
-
+        Coding coding = new Coding(text, tree);
+        coding.generateCodesTable();
+        System.out.println(coding.encodedText().toString());
 
     }
 }

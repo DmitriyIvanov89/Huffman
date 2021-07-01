@@ -38,12 +38,20 @@ public class HuffmanTree {
         return nodes.get(0);
     }
 
-    public Map<Character, String> generateCodesTable() {
-        Map<Character, String> codes = new HashMap<>();
-        Node root = nodes.get(0);
-        for (Character c : frequencies.keySet()) {
-            codes.put(c, root.encode(c, ""));
-        }
-        return codes;
+    public Map<Character, Integer> getFrequencies() {
+        return frequencies;
     }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    //    public Map<Character, String> generateCodesTable() {
+//        Map<Character, String> codes = new HashMap<>();
+//        Node root = nodes.get(0);
+//        for (Character c : frequencies.keySet()) {
+//            codes.put(c, root.encode(c, ""));
+//        }
+//        return codes;
+//    }
 }
