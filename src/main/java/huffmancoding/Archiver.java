@@ -1,23 +1,17 @@
 package huffmancoding;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Archiver {
 
     private final String text;
     private final HuffmanTree tree;
-    private Map<Character, Integer> frequencies;
-    private List<Node> nodes;
     private Map<Character, String> codes;
 
     public Archiver(String text, HuffmanTree tree) {
         this.text = text;
         this.tree = tree;
-        this.frequencies = new HashMap<>();
-        this.nodes = new ArrayList<>();
     }
 
     public Map<Character, String> generateCodesTable() {
