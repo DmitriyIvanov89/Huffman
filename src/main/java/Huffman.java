@@ -21,5 +21,7 @@ public class Huffman {
 
         System.out.println(String.format("Coded text: %s" + "\n", coding.encodeText()));
 
+        System.out.println(String.format("Decoded text: %s" + "\n", coding.decodeCodes(coding.encodeText(), tree)));
+
     }
 }
