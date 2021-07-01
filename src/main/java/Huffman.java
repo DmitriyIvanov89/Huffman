@@ -6,20 +6,8 @@ public class Huffman {
 
         String text = "All cats are beautiful!";
 
-
-        CompressedFile compressedFile = Archiver.compress(text);
-        String decompressResult = Archiver.decompress(compressedFile);
-
-
-//        System.out.println("Generated codes table:");
-//
-//        for (Map.Entry<Character, String> entry : archiver.generateCodesTable().entrySet()) {
-//            System.out.printf("symbol: %s, code: %s%n", entry.getKey(), entry.getValue());
-//        }
-//
-//        System.out.printf("Coded text: %s" + "\n", archiver.compress());
-//
-//        System.out.printf("Decoded text: %s" + "\n", archiver.decompress(archiver.compress(), tree));
+        CompressedFile compressedFile = new Archiver().compress(text);
+        String decompressResult = new Archiver().decompress(compressedFile);
 
     }
 }
