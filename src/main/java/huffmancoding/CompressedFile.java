@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class CompressedFile {
 
-    private String encoded;
-    private Map<Character, Integer> frequencies;
+    private final String encoded;
+    private final Map<Character, Integer> frequencies;
 
     public CompressedFile(String encoded, Map<Character, Integer> frequencies) {
         this.encoded = encoded;
