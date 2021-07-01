@@ -8,6 +8,14 @@ public class HuffmanTree {
     private Map<Character, Integer> frequencies;
 
     public HuffmanTree(Map<Character, Integer> frequencies) {
+        init(frequencies);
+    }
+
+    public HuffmanTree(String text) {
+        init(countFrequencies(text));
+    }
+
+    private void init(Map<Character, Integer> frequencies) {
         this.frequencies = frequencies;
         List<Node> nodes = new ArrayList<>();
         for (Map.Entry<Character, Integer> entry : frequencies.entrySet()) {
@@ -23,10 +31,6 @@ public class HuffmanTree {
         }
 
         this.root = nodes.get(0);
-    }
-
-    public HuffmanTree(String text) {
-        new HuffmanTree(countFrequencies(text));
     }
 
     public Node getRoot() {

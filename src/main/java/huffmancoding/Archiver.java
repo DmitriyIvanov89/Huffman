@@ -32,6 +32,7 @@ public class Archiver {
                 currNode = tree.getRoot();
             }
         }
+        System.out.println(decoded.toString());
         return decoded.toString();
     }
 
