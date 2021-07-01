@@ -2,10 +2,10 @@ package huffmancoding;
 
 public class Node implements Comparable<Node> {
 
-    private final int frequency;
     private final Character symbol;
-    private Node leftChild;
-    private Node rightChild;
+    private final int frequency;
+    private Node left;
+    private Node right;
 
     public Node(Character symbol, int frequency) {
         this.symbol = symbol;
@@ -15,8 +15,8 @@ public class Node implements Comparable<Node> {
     public Node(Character symbol, int frequency, Node leftChild, Node rightChild) {
         this.symbol = symbol;
         this.frequency = frequency;
-        this.leftChild = leftChild;
-        this.rightChild = rightChild;
+        this.left = leftChild;
+        this.right = rightChild;
     }
 
     public int getFrequency() {
@@ -32,18 +32,18 @@ public class Node implements Comparable<Node> {
         return o.frequency - frequency;
     }
 
-    public String encode(Node root, String path) {
+    public String encode(Node root, String parentPath) {
         if (root == null) {
-            return path;
+            return parentPath;
         }
-        if (leftChild != null) {
-            path = leftChild.encode(root, path + "0");
+        if (left != null) {
+            String path = left.encode(root, parentPath + "0");
             if (path != null) {
                 return path;
             }
         }
-        if (rightChild != null) {
-            path = rightChild.encode(root, path + "1");
+        if (right != null) {
+            String path = right.encode(root, parentPath + "1");
             if (path != null) {
                 return path;
             }

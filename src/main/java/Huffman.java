@@ -10,8 +10,6 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
-        Map<Character, String> codes = new HashMap<>();
-        
 
     }
 }
