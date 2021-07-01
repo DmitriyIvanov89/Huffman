@@ -19,6 +19,14 @@ public class Node implements Comparable<Node> {
         this.right = right;
     }
 
+    public Node getLeft() {
+        return left;
+    }
+
+    public Node getRight() {
+        return right;
+    }
+
     public int getFrequency() {
         return frequency;
     }

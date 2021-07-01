@@ -29,7 +29,7 @@ public class Coding {
         return codes;
     }
 
-    public String encodingText() {
+    public String encodeText() {
         StringBuilder encoded = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             encoded.append(codes.get(text.charAt(i)));
@@ -37,11 +37,16 @@ public class Coding {
         return encoded.toString();
     }
 
-//    public String decodingCodes(String encoded, HuffmanTree tree) {
-//        StringBuilder decoded = new StringBuilder();
-//        Node node = tree.getNodes().get(0);
-//        for (int i = 0; i < encoded.length(); i++) {
-//
-//        }
-//    }
+    public String decodeCodes(String encoded, HuffmanTree tree) {
+        StringBuilder decoded = new StringBuilder();
+        Node root = tree.getNodes().get(0);
+        Node currNode = root;
+        for (int i = 0; i < encoded.length(); i++) {
+            if (encoded.charAt(i) == '0') {
+                currNode = currNode.getLeft();
+            } else {
+                currNode = currNode.getRight();
+            }
+        }
+    }
 }

@@ -10,6 +10,7 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
+
         Coding coding = new Coding(text, tree);
 
         System.out.println("Generated codes table:");
@@ -18,7 +19,7 @@ public class Huffman {
             System.out.println(String.format("symbol: %s, code: %s", entry.getKey(), entry.getValue()));
         }
 
-        System.out.println(String.format("Coded text: %s" + "\n", coding.encodingText()));
+        System.out.println(String.format("Coded text: %s" + "\n", coding.encodeText()));
 
     }
 }
