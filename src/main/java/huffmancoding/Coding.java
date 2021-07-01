@@ -29,11 +29,19 @@ public class Coding {
         return codes;
     }
 
-    public StringBuilder encodedText() {
+    public String encodingText() {
         StringBuilder encoded = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             encoded.append(codes.get(text.charAt(i)));
         }
-        return encoded;
+        return encoded.toString();
     }
+
+//    public String decodingCodes(String encoded, HuffmanTree tree) {
+//        StringBuilder decoded = new StringBuilder();
+//        Node node = tree.getNodes().get(0);
+//        for (int i = 0; i < encoded.length(); i++) {
+//
+//        }
+//    }
 }
