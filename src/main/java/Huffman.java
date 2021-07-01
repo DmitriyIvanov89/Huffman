@@ -1,6 +1,5 @@
 import huffmancoding.HuffmanTree;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Huffman {
@@ -10,6 +9,8 @@ public class Huffman {
 
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
-
+        for (Map.Entry<Character, String> entry : tree.generateCodesTable().entrySet()) {
+            System.out.println(entry.toString());
+        }
     }
 }

@@ -5,13 +5,16 @@ import java.util.*;
 public class HuffmanTree {
 
     private final String text;
+    private Map<Character, Integer> frequencies;
+    private List<Node> nodes;
+    private Node root;
 
     public HuffmanTree(String text) {
         this.text = text;
     }
 
     public Node buildHuffmanTree() {
-        Map<Character, Integer> frequencies = new HashMap<>();
+        frequencies = new HashMap<>();
         for (int i = 0; i < text.length(); i++) {
             char symbol = text.charAt(i);
             if (frequencies.containsKey(symbol)) {
@@ -21,7 +24,7 @@ public class HuffmanTree {
             }
         }
 
-        List<Node> nodes = new ArrayList<>();
+        nodes = new ArrayList<>();
         for (Map.Entry<Character, Integer> entry : frequencies.entrySet()) {
             nodes.add(new Node(entry.getKey(), entry.getValue()));
         }
@@ -36,5 +39,12 @@ public class HuffmanTree {
         return nodes.get(0);
     }
 
-
+    public Map<Character, String> generateCodesTable() {
+        Map<Character, String> codes = new HashMap<>();
+        root = nodes.get(0);
+        for (Character c : frequencies.keySet()) {
+            codes.put(c, root.encode(c, ""));
+        }
+        return codes;
+    }
 }
