@@ -1,4 +1,4 @@
-import huffmancoding.Coding;
+import huffmancoding.Archiver;
 import huffmancoding.HuffmanTree;
 
 import java.util.Map;
@@ -11,17 +11,17 @@ public class Huffman {
         HuffmanTree tree = new HuffmanTree(text);
         tree.buildHuffmanTree();
 
-        Coding coding = new Coding(text, tree);
+        Archiver archiver = new Archiver(text, tree);
 
         System.out.println("Generated codes table:");
 
-        for (Map.Entry<Character, String> entry : coding.generateCodesTable().entrySet()) {
+        for (Map.Entry<Character, String> entry : archiver.generateCodesTable().entrySet()) {
             System.out.println(String.format("symbol: %s, code: %s", entry.getKey(), entry.getValue()));
         }
 
-        System.out.println(String.format("Coded text: %s" + "\n", coding.encodeText()));
+        System.out.println(String.format("Coded text: %s" + "\n", archiver.encodeText()));
 
-        System.out.println(String.format("Decoded text: %s" + "\n", coding.decodeCodes(coding.encodeText(), tree)));
+        System.out.println(String.format("Decoded text: %s" + "\n", archiver.decodeCodes(archiver.encodeText(), tree)));
 
     }
 }

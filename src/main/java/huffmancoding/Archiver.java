@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Coding {
+public class Archiver {
 
     private final String text;
     private final HuffmanTree tree;
@@ -13,7 +13,7 @@ public class Coding {
     private List<Node> nodes;
     private Map<Character, String> codes;
 
-    public Coding(String text, HuffmanTree tree) {
+    public Archiver(String text, HuffmanTree tree) {
         this.text = text;
         this.tree = tree;
         this.frequencies = new HashMap<>();
