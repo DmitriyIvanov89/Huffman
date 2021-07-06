@@ -7,10 +7,10 @@ import java.util.*;
 public class HuffmanCompressor {
 
     private String path;
-    private FileHuffman fileReaderHuffman;
+    private byte[] bytesArr;
 
     public void compress(File file) throws IOException {
-        FileHuffman fileReaderHuffman = new FileHuffman(path);
+        bytesArr = new FileHuffman().readFile();
         Map<Byte, Integer> frequencies = countFrequencies(path);
         NodeHufTreeWithBytes root = generateCodesTree(frequencies);
         Map<Byte, String> codes = new HashMap<>();
@@ -45,10 +45,9 @@ public class HuffmanCompressor {
     }
 
     private Map<Byte, Integer> countFrequencies(String path) throws IOException {
-        FileHuffman fileReaderHuffman = new FileHuffman(path);
-        byte[] arr = fileReaderHuffman.readFile();
+        bytesArr = new FileHuffman().readFile();
         Map<Byte, Integer> frequencies = new HashMap<>();
-        for (byte byteFromFile : arr) {
+        for (byte byteFromFile : bytesArr) {
             if (frequencies.containsKey(byteFromFile)) {
                 frequencies.put(byteFromFile, frequencies.get(byteFromFile) + 1);
             } else {
