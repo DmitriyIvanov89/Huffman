@@ -1,6 +1,5 @@
-import files.FileReaderHuffman;
+import files.FileHuffman;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -17,8 +16,7 @@ public class Huffman {
         String decompressResult = new Archiver().decompress(compressedFile);
          */
 
-        File file = new File(PATH);
-        FileReaderHuffman byteReader = new FileReaderHuffman(file);
+        FileHuffman byteReader = new FileHuffman(PATH);
         byteReader.readFile();
         System.out.println(Arrays.toString(byteReader.readFile()));
 
