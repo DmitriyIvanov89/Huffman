@@ -1,8 +1,6 @@
-import files.FileHuffman;
 import huffmancoding.Archiver;
 import huffmancoding.CompressedFile;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Huffman {
 
@@ -11,14 +9,10 @@ public class Huffman {
     public static void main(String[] args) throws IOException {
 
 
-//        String text = "All cats are beautiful!";
-//
-//        CompressedFile compressedFile = new Archiver().compress(text);
-//        String decompressResult = new Archiver().decompress(compressedFile);
+        String text = "All cats are beautiful!";
 
-        FileHuffman byteReader = new FileHuffman(PATH);
-        byteReader.readFile();
-        System.out.println(Arrays.toString(byteReader.readFile()));
+        CompressedFile compressedFile = new Archiver().compress(text);
+        String decompressResult = new Archiver().decompress(compressedFile);
 
     }
 }
