@@ -1,6 +1,6 @@
 package files;
 
-public class HuffmanTreeNode {
+public class HuffmanTreeNode implements Comparable<HuffmanTreeNode> {
 
     private final Byte nodeByte;
     private final int frequency;
@@ -33,5 +33,10 @@ public class HuffmanTreeNode {
 
     public HuffmanTreeNode getRight() {
         return right;
+    }
+
+    @Override
+    public int compareTo(HuffmanTreeNode o) {
+        return o.frequency - frequency;
     }
 }
