@@ -19,7 +19,10 @@ public class HuffmanCompressor {
             HuffmanTreeNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
-            System.out.println(codes);
+
+            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+                sb.append(entry.getKey());
+            }
 
         }
         return outputFile;
