@@ -1,6 +1,7 @@
 package files;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 public class HuffmanCompressor {
@@ -10,7 +11,6 @@ public class HuffmanCompressor {
     public File compressFile(File originFile) throws IOException {
 
         File outputFile = new File(OUTPUT);
-        StringBuilder sb = new StringBuilder();
 
         try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
@@ -20,10 +20,14 @@ public class HuffmanCompressor {
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
+            StringBuilder sb = new StringBuilder();
+
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 sb.append(entry.getKey());
             }
 
+            out.write(codes.size());
+            out.writeBytes(sb.toString());
         }
         return outputFile;
     }
