@@ -19,14 +19,11 @@ public class HuffmanCompressor {
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            StringBuilder sb = new StringBuilder();
-
-            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                sb.append(entry.getKey());
-            }
-
             out.write(codes.size());
-            out.writeBytes(sb.toString());
+            for (Byte element : codes.keySet()) {
+                out.write(element);
+                out.writeChars(codes.get(element));
+            }
         }
         return outputFile;
     }
