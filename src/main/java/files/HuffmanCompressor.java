@@ -20,10 +20,14 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
 
             out.write(codes.size());
-            for (Byte element : codes.keySet()) {
-                out.write(element);
-                out.writeChars(codes.get(element));
+
+            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+                out.write(entry.getKey());
+                out.writeBytes(entry.getValue());
             }
+
+
+
         }
         return outputFile;
     }
