@@ -1,6 +1,4 @@
 import files.HuffmanCompressor;
-import huffmancoding.Archiver;
-import huffmancoding.CompressedFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +16,7 @@ public class Huffman {
 //        String decompressResult = new Archiver().decompress(compressedFile);
 
         HuffmanCompressor huffmanCompressor = new HuffmanCompressor();
-        huffmanCompressor.compressFile(file);
+        File compress = huffmanCompressor.compress(file);
 
     }
 }
