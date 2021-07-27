@@ -35,7 +35,7 @@ public class HuffmanCompressor {
         try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
 
-            
+
         }
 
         return null;
