@@ -14,8 +14,8 @@ public class Huffman {
 //        CompressedFile compressedFile = new Archiver().compress(text);
 //        String decompressResult = new Archiver().decompress(compressedFile);
 
-        HuffmanCompressor huffmanCompressor = new HuffmanCompressor();
-        File compress = huffmanCompressor.compress(file);
+        File compress = new HuffmanCompressor().compress(file);
+        File decompress = new HuffmanCompressor().decompress(compress);
 
     }
 }
