@@ -22,7 +22,7 @@ public class HuffmanCompressor {
             out.write(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                out.write(entry.getKey());
+                //out.write(entry.getKey());
                 out.writeBytes(entry.getValue());
             }
 
