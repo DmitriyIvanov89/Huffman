@@ -7,8 +7,8 @@ public class HuffmanCompressor {
 
     private static final String OUTPUT = ".\\src\\main\\resources\\compressed.txt";
     private static final String DECOMPRESS = ".\\src\\main\\resources\\decompress.txt";
-    File outputFile = new File(OUTPUT);
-    File decompressedFile = new File(DECOMPRESS);
+    private final File outputFile = new File(OUTPUT);
+    private final File decompressedFile = new File(DECOMPRESS);
 
     public File compress(File originFile) throws IOException {
 
