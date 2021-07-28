@@ -6,10 +6,11 @@ import java.util.*;
 public class HuffmanCompressor {
 
     private static final String OUTPUT = ".\\src\\main\\resources\\compressed.txt";
+    private static final String DECOMPRESS = ".\\src\\main\\resources\\decompress.txt";
+    File outputFile = new File(OUTPUT);
+    File decompressedFile = new File(DECOMPRESS);
 
-    public File compressFile(File originFile) throws IOException {
-
-        File outputFile = new File(OUTPUT);
+    public File compress(File originFile) throws IOException {
 
         try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
@@ -25,13 +26,19 @@ public class HuffmanCompressor {
                 //out.write(entry.getKey());
                 out.writeBytes(entry.getValue());
             }
-
         }
         return outputFile;
-
     }
 
-    public void deCompressFile() {
+    public File decompress(File outputFile) throws IOException {
+
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
+             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+
+
+        }
+
+        return null;
 
     }
 
@@ -72,7 +79,9 @@ public class HuffmanCompressor {
         if (node.getRight() != null) {
             fillCodesTable(node.getRight(), path + 1, codes);
         }
-        codes.put(node.getNodeByte(), path);
+        if (node.getLeft() == null && node.getRight() == null) {
+            codes.put(node.getNodeByte(), path);
+        }
     }
 
 }
