@@ -29,11 +29,11 @@ public class HuffmanCompressor {
 
             StringBuilder encodedData = new StringBuilder();
 
-            for (int i = 0; i < in.available(); i++) {
+            while (in.available() > 0) {
                 encodedData.append(codes.get(in.readByte()));
             }
 
-            out.writeUTF(encodedData.toString());
+            out.writeChars(encodedData.toString());
         }
         return outputFile;
     }
