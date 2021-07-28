@@ -20,12 +20,20 @@ public class HuffmanCompressor {
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            out.write(codes.size());
+            out.write(codes.size() + '\n');
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 out.write(entry.getKey());
-                out.writeBytes(entry.getValue());
+                out.writeBytes(entry.getValue() + '\n');
             }
+
+            StringBuilder encodedData = new StringBuilder();
+
+            for (int i = 0; i < in.available(); i++) {
+                encodedData.append(codes.get(in.readByte()));
+            }
+
+            out.writeUTF(encodedData.toString());
         }
         return outputFile;
     }
@@ -41,11 +49,9 @@ public class HuffmanCompressor {
             for (int i = 0; i < codesTableSize; i++) {
                 codes.put(in.readByte(), in.readUTF());
             }
-            
         }
 
         return decompressedFile;
-
     }
 
     private Map<Byte, Integer> countFrequencies(DataInputStream in) throws IOException {
@@ -89,5 +95,4 @@ public class HuffmanCompressor {
             codes.put(node.getNodeByte(), path);
         }
     }
-
 }
