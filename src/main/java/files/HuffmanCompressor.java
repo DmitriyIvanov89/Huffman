@@ -19,6 +19,7 @@ public class HuffmanCompressor {
             HuffmanTreeNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
+            in.close();
 
             out.write(codes.size() + '\n');
 
@@ -27,10 +28,11 @@ public class HuffmanCompressor {
                 out.writeBytes(entry.getValue() + '\n');
             }
 
+            DataInputStream inTwo = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
             StringBuilder encodedData = new StringBuilder();
 
-            while (in.available() > 0) {
-                encodedData.append(codes.get(in.readByte()));
+            while (inTwo.available() > 0) {
+                encodedData.append(codes.get(inTwo.readByte()));
             }
 
             out.writeChars(encodedData.toString());
@@ -38,21 +40,21 @@ public class HuffmanCompressor {
         return outputFile;
     }
 
-    public File decompress(File outputFile) throws IOException {
-
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
-
-            Map<Byte, String> codes = new HashMap<>();
-
-            int codesTableSize = in.readInt();
-            for (int i = 0; i < codesTableSize; i++) {
-                codes.put(in.readByte(), in.readUTF());
-            }
-        }
-
-        return decompressedFile;
-    }
+//    public File decompress(File outputFile) throws IOException {
+//
+//        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
+//             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+//
+//            Map<Byte, String> codes = new HashMap<>();
+//
+//            int codesTableSize = in.readInt();
+//            for (int i = 0; i < codesTableSize; i++) {
+//                codes.put(in.readByte(), in.readUTF());
+//            }
+//        }
+//
+//        return decompressedFile;
+//    }
 
     private Map<Byte, Integer> countFrequencies(DataInputStream in) throws IOException {
         Map<Byte, Integer> frequencies = new HashMap<>();
