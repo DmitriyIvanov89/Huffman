@@ -43,23 +43,23 @@ public class HuffmanCompressor {
         return outputFile;
     }
 
-    public File decompress(File outputFile) throws IOException {
-
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
-
-            Map<Byte, Byte> codes = new HashMap<>();
-
-            int codesTableSize = in.readByte();
-            for (int i = 0; i < codesTableSize; i++) {
-                codes.put(in.readByte(), in.readByte());
-            }
-
-
-        }
-
-        return null;
-    }
+//    public File decompress(File outputFile) throws IOException {
+//
+//        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
+//             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+//
+//            Map<Byte, Byte> codes = new HashMap<>();
+//
+//            int codesTableSize = in.readByte();
+//            for (int i = 0; i < codesTableSize; i++) {
+//                codes.put(in.readByte(), in.readByte());
+//            }
+//
+//
+//        }
+//
+//        return null;
+//    }
 
     private Map<Byte, Integer> countFrequencies(DataInputStream in) throws IOException {
         Map<Byte, Integer> frequencies = new HashMap<>();
