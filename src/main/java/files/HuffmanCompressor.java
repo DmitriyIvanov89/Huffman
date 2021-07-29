@@ -19,7 +19,6 @@ public class HuffmanCompressor {
             HuffmanTreeNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
-            in.close();
 
             out.write(codes.size() + '\n');
 
@@ -29,12 +28,14 @@ public class HuffmanCompressor {
             }
 
             DataInputStream inTwo = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
+
             StringBuilder encodedData = new StringBuilder();
 
             while (inTwo.available() > 0) {
                 encodedData.append(codes.get(inTwo.readByte()));
             }
 
+            inTwo.close();
             out.writeBytes(encodedData.toString());
         }
         return outputFile;
