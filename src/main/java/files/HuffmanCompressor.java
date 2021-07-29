@@ -3,8 +3,6 @@ package files;
 import java.io.*;
 import java.util.*;
 
-import static java.io.DataInputStream.readUTF;
-
 public class HuffmanCompressor {
 
     private static final String OUTPUT = ".\\src\\main\\resources\\compressed.txt";
