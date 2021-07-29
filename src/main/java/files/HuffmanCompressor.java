@@ -21,10 +21,12 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
 
             out.write(codes.size());
+            out.write('\n');
 
             for (Byte aByte : codes.keySet()) {
                 out.writeByte(aByte);
-                out.writeChars(codes.get(aByte));
+                out.writeBytes(codes.get(aByte));
+                out.write('\n');
             }
 
             DataInputStream inTwo = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
@@ -46,12 +48,13 @@ public class HuffmanCompressor {
         try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
 
-            Map<Byte, String> codes = new HashMap<>();
+            Map<Byte, Byte> codes = new HashMap<>();
 
             int codesTableSize = in.readByte();
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(in.readByte(), in.readUTF());
+                codes.put(in.readByte(), in.readByte());
             }
+
 
         }
 
