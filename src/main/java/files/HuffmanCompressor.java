@@ -35,7 +35,7 @@ public class HuffmanCompressor {
                 encodedData.append(codes.get(inTwo.readByte()));
             }
 
-            out.writeChars(encodedData.toString());
+            out.writeBytes(encodedData.toString());
         }
         return outputFile;
     }
