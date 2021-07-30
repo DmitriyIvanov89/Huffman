@@ -53,11 +53,14 @@ public class HuffmanCompressor {
                 codes.put(in.readByte(), in.readUTF());
             }
 
+            // doesn't read bytes
             StringBuilder encodedFromFile = new StringBuilder();
             while (in.available() > 0) {
                 encodedFromFile.append(in.readUTF());
             }
 
+            // create Huffman Tree without frequencies table
+            
         }
 
         return null;
