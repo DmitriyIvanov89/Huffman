@@ -60,7 +60,7 @@ public class HuffmanCompressor {
             }
 
             // create Huffman Tree without frequencies table
-            
+
         }
 
         return null;
