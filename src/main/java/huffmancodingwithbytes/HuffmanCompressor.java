@@ -52,6 +52,14 @@ public class HuffmanCompressor {
             for (int i = 0; i < codesTableSize; i++) {
                 codes.put(in.readByte(), in.readUTF());
             }
+
+            List<String> allCodes = new ArrayList<>();
+            while (in.available() > 0) {
+                allCodes.add(in.readUTF());
+            }
+
+
+
         }
 
         return null;
