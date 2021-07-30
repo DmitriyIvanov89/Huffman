@@ -6,7 +6,7 @@ import java.util.*;
 public class HuffmanCompressor {
 
     private static final String OUTPUT = ".\\src\\main\\resources\\compressed.txt";
-    private static final String DECOMPRESS = ".\\src\\main\\resources\\decompress.txt";
+    private static final String DECOMPRESS = ".\\src\\main\\resources\\decompress";
     private final File outputFile = new File(OUTPUT);
     private final File decompressedFile = new File(DECOMPRESS);
 
@@ -53,11 +53,11 @@ public class HuffmanCompressor {
                 codes.put(in.readByte(), in.readUTF());
             }
 
-            List<String> allCodes = new ArrayList<>();
+            StringBuilder encodedFromFile = new StringBuilder();
             while (in.available() > 0) {
-                allCodes.add(in.readUTF());
+                encodedFromFile.append(in.readUTF());
             }
-            
+
         }
 
         return null;
