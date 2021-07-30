@@ -57,9 +57,7 @@ public class HuffmanCompressor {
             while (in.available() > 0) {
                 allCodes.add(in.readUTF());
             }
-
-
-
+            
         }
 
         return null;
