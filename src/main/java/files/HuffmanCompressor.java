@@ -23,9 +23,9 @@ public class HuffmanCompressor {
             out.write(codes.size());
             out.write('\n');
 
-            for (Byte aByte : codes.keySet()) {
-                out.writeByte(aByte);
-                out.writeBytes(codes.get(aByte));
+            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+                out.writeByte(entry.getKey());
+                out.writeBytes(codes.get(entry.getKey()));
                 out.write('\n');
             }
 

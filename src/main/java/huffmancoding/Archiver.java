@@ -4,6 +4,13 @@ import java.util.*;
 
 public class Archiver {
 
+    /*
+    * from main method:
+    * String text = "All cats are beautiful!";
+    * CompressedFile compressedFile = new Archiver().compress(text);
+    * String decompressResult = new Archiver().decompress(compressedFile);
+    * */
+
     public CompressedFile compress(String text) {
         Map<Character, Integer> frequencies = countFrequencies(text);
         Node root = generateCodesTree(frequencies);
