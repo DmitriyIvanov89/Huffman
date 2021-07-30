@@ -1,4 +1,4 @@
-import files.HuffmanCompressor;
+import huffmancodingwithbytes.HuffmanCompressor;
 
 import java.io.*;
 
@@ -10,7 +10,7 @@ public class Huffman {
     public static void main(String[] args) throws IOException {
 
         File compress = new HuffmanCompressor().compress(file);
-        //File decompress = new HuffmanCompressor().decompress(compress);
+        File decompress = new HuffmanCompressor().decompress(compress);
 
     }
 }

@@ -1,4 +1,4 @@
-package files;
+package huffmancodingwithbytes;
 
 import java.io.*;
 import java.util.*;
@@ -21,12 +21,10 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
 
             out.write(codes.size());
-            out.write('\n');
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 out.writeByte(entry.getKey());
-                out.writeBytes(codes.get(entry.getKey()));
-                out.write('\n');
+                out.writeUTF(codes.get(entry.getKey()));
             }
 
             DataInputStream inTwo = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
@@ -43,23 +41,21 @@ public class HuffmanCompressor {
         return outputFile;
     }
 
-//    public File decompress(File outputFile) throws IOException {
-//
-//        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
-//             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
-//
-//            Map<Byte, Byte> codes = new HashMap<>();
-//
-//            int codesTableSize = in.readByte();
-//            for (int i = 0; i < codesTableSize; i++) {
-//                codes.put(in.readByte(), in.readByte());
-//            }
-//
-//
-//        }
-//
-//        return null;
-//    }
+    public File decompress(File outputFile) throws IOException {
+
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
+             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+
+            Map<Byte, String> codes = new HashMap<>();
+
+            int codesTableSize = in.readByte();
+            for (int i = 0; i < codesTableSize; i++) {
+                codes.put(in.readByte(), in.readUTF());
+            }
+        }
+
+        return null;
+    }
 
     private Map<Byte, Integer> countFrequencies(DataInputStream in) throws IOException {
         Map<Byte, Integer> frequencies = new HashMap<>();
@@ -93,10 +89,10 @@ public class HuffmanCompressor {
 
     private void fillCodesTable(HuffmanTreeNode node, String path, Map<Byte, String> codes) {
         if (node.getLeft() != null) {
-            fillCodesTable(node.getLeft(), path + 0, codes);
+            fillCodesTable(node.getLeft(), path + "0", codes);
         }
         if (node.getRight() != null) {
-            fillCodesTable(node.getRight(), path + 1, codes);
+            fillCodesTable(node.getRight(), path + "1", codes);
         }
         if (node.getLeft() == null && node.getRight() == null) {
             codes.put(node.getNodeByte(), path);
