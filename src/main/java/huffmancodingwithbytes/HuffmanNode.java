@@ -1,18 +1,18 @@
 package huffmancodingwithbytes;
 
-public class HuffmanTreeNode implements Comparable<HuffmanTreeNode> {
+public class HuffmanNode implements Comparable<HuffmanNode> {
 
     private final Byte nodeByte;
     private final int frequency;
-    private HuffmanTreeNode left;
-    private HuffmanTreeNode right;
+    private HuffmanNode left;
+    private HuffmanNode right;
 
-    public HuffmanTreeNode(Byte nodeByte, int frequency) {
+    public HuffmanNode(Byte nodeByte, int frequency) {
         this.nodeByte = nodeByte;
         this.frequency = frequency;
     }
 
-    public HuffmanTreeNode(Byte nodeByte, int frequency, HuffmanTreeNode left, HuffmanTreeNode right) {
+    public HuffmanNode(Byte nodeByte, int frequency, HuffmanNode left, HuffmanNode right) {
         this.nodeByte = nodeByte;
         this.frequency = frequency;
         this.left = left;
@@ -27,16 +27,16 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode> {
         return frequency;
     }
 
-    public HuffmanTreeNode getLeft() {
+    public HuffmanNode getLeft() {
         return left;
     }
 
-    public HuffmanTreeNode getRight() {
+    public HuffmanNode getRight() {
         return right;
     }
 
     @Override
-    public int compareTo(HuffmanTreeNode o) {
+    public int compareTo(HuffmanNode o) {
         return o.frequency - frequency;
     }
 }
