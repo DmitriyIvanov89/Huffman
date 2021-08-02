@@ -58,11 +58,11 @@ public class HuffmanCompressor {
                 encodedFromFile.append(in.readUTF());
             }
 
-            
-
-
+            HuffmanNode root = new HuffmanNode((byte) 0,0);
+            for (int i = 0; i < encodedFromFile.length(); i++) {
+                
+            }
         }
-
         return null;
     }
 
