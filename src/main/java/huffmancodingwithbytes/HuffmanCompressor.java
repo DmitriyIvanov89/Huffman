@@ -58,10 +58,14 @@ public class HuffmanCompressor {
                 encodedFromFile.append(in.readUTF());
             }
 
-            HuffmanNode root = new HuffmanNode((byte) 0,0);
-            for (int i = 0; i < encodedFromFile.length(); i++) {
+            HuffmanNode root = new HuffmanNode((byte) 0, 0);
+            // build tree
+            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 
             }
+
+            // decoded compressed file
+
         }
         return null;
     }
