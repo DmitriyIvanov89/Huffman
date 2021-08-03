@@ -1,4 +1,4 @@
-import huffmancodingwithbytes.HuffmanCompressor;
+import huffmanarchiver.HuffmanCompressor;
 
 import java.io.*;
 

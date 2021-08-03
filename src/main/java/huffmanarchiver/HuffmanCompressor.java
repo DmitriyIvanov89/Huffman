@@ -1,4 +1,4 @@
-package huffmancodingwithbytes;
+package huffmanarchiver;
 
 import java.io.*;
 import java.util.*;

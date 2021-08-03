@@ -1,4 +1,4 @@
-package huffmancodingwithbytes;
+package huffmanarchiver;
 
 public class HuffmanNode implements Comparable<HuffmanNode> {
 
