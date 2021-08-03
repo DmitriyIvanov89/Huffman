@@ -2,7 +2,7 @@ package huffmanarchiver;
 
 public class HuffmanNode implements Comparable<HuffmanNode> {
 
-    private final Byte nodeByte;
+    private Byte nodeByte;
     private final int frequency;
     private HuffmanNode left;
     private HuffmanNode right;
@@ -33,6 +33,18 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
     public HuffmanNode getRight() {
         return right;
+    }
+
+    public void setLeft(HuffmanNode left) {
+        this.left = left;
+    }
+
+    public void setRight(HuffmanNode right) {
+        this.right = right;
+    }
+
+    public void setNodeByte(Byte nodeByte) {
+        this.nodeByte = nodeByte;
     }
 
     @Override

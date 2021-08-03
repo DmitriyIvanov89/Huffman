@@ -58,16 +58,35 @@ public class HuffmanCompressor {
                 encodedFromFile.append(in.readUTF());
             }
 
-            HuffmanNode root = new HuffmanNode((byte) 0, 0);
             // build tree
+            HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                
+                HuffmanNode currNode = root;
+                for (int i = 0; i < entry.getValue().length(); i++) {
+                    if (entry.getValue().charAt(i) == '1') {
+                        if (currNode.getRight() == null) {
+                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+                            currNode.setRight(newNode);
+                            currNode = newNode;
+                        } else {
+                            currNode = currNode.getRight();
+                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+                        }
+                    } else if (entry.getValue().charAt(i) == '0') {
+                        if (currNode.getLeft() == null) {
+                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+                            currNode.setLeft(newNode);
+                            currNode = newNode;
+                        } else {
+                            currNode = currNode.getLeft();
+                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+                        }
+                    }
+                }
             }
-
-            // decoded compressed file
-
+            System.out.println(root);
+            return null;
         }
-        return null;
     }
 
     private Map<Byte, Integer> countFrequencies(DataInputStream in) throws IOException {
