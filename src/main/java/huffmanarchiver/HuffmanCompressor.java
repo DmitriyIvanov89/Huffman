@@ -85,6 +85,11 @@ public class HuffmanCompressor {
                     }
                 }
             }
+
+            // decoding data
+            // write data in output file
+            
+
             System.out.println(root);
             return null;
         }
