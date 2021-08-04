@@ -1,5 +1,7 @@
 package huffmancodingwithbytes;
 
+import huffmancoding.Node;
+
 import java.io.*;
 import java.util.*;
 
@@ -58,13 +60,13 @@ public class HuffmanCompressor {
                 encodedFromFile.append(in.readUTF());
             }
 
-            HuffmanNode root = new HuffmanNode((byte) 0, 0);
             // build tree
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                
+
             }
 
-            // decoded compressed file
+            HuffmanNode root = new HuffmanNode(null,0);
+            // decoded compressed data
 
         }
         return null;
