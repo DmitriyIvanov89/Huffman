@@ -1,7 +1,5 @@
 package huffmanarchiver;
 
-import huffmancoding.Node;
-
 import java.io.*;
 import java.util.*;
 
