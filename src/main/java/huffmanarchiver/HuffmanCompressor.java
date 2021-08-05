@@ -88,10 +88,20 @@ public class HuffmanCompressor {
 
             // decoding data
             // write data in output file
-            
+            HuffmanNode currNode = root;
+            for (int i = 0; i < encodedFromFile.length(); i++) {
+                if (encodedFromFile.charAt(i) == '0') {
+                    currNode = currNode.getLeft();
+                } else {
+                    currNode = currNode.getRight();
+                }
+                if (currNode.getNodeByte() != null) {
+                    out.writeByte(currNode.getNodeByte());
+                    currNode = root;
+                }
+            }
 
-            System.out.println(root);
-            return null;
+            return decompressedFile;
         }
     }
 
