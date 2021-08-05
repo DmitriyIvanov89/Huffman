@@ -32,7 +32,7 @@ public class HuffmanCompressor {
             }
 
             in.reset();
-
+            // add EOF symbol for fill last byte
             StringBuilder encodedData = new StringBuilder();
             while (in.available() > 0) {
                 encodedData.append(codes.get(in.readByte()));
@@ -59,7 +59,7 @@ public class HuffmanCompressor {
             while (in.available() > 0) {
                 encodedFromFile.append(in.readUTF());
             }
-
+            // refactor this method
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 HuffmanNode currNode = root;
@@ -85,9 +85,7 @@ public class HuffmanCompressor {
                     }
                 }
             }
-
-            // decoding data
-            // write data in output file
+            // decoding data & write in output file
             HuffmanNode currNode = root;
             for (int i = 0; i < encodedFromFile.length(); i++) {
                 if (encodedFromFile.charAt(i) == '0') {
