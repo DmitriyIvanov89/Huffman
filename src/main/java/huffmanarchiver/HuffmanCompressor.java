@@ -1,6 +1,5 @@
 package huffmanarchiver;
 
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.util.*;
 
@@ -16,8 +15,6 @@ public class HuffmanCompressor {
         try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
 
-            in.mark(0);
-
             Map<Byte, Integer> frequencies = countFrequencies(in);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
@@ -30,8 +27,12 @@ public class HuffmanCompressor {
                 out.writeUTF(codes.get(entry.getKey()));
             }
 
-            in.reset();
-            // add EOF symbol for fill last byte
+            /*
+            * add EOF symbol for fill last byte
+            * open second stream for read bits from file
+            * save bits in OutputStream and transmit this stream in decompress method
+            *
+            */
             StringBuilder encodedData = new StringBuilder();
             while (in.available() > 0) {
                 encodedData.append(codes.get(in.readByte()));
@@ -85,7 +86,6 @@ public class HuffmanCompressor {
                 }
             }
 
-            // decoding data & write in output file
             HuffmanNode currNode = root;
             for (int i = 0; i < encodedFromFile.length(); i++) {
                 if (encodedFromFile.charAt(i) == '0') {
