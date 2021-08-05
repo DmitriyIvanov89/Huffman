@@ -33,14 +33,15 @@ public class HuffmanCompressor {
              * save bits in OutputStream and transmit this stream in decompress method
              *
              */
-            try (DataInputStream secondIn = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));) {
+            try (DataInputStream secondIn = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
                 StringBuilder encodedData = new StringBuilder();
 
                 while (secondIn.available() > 0) {
                     encodedData.append(codes.get(secondIn.readByte()));
                 }
 
-                out.writeUTF(encodedData.toString());
+                //out.writeUTF(encodedData.toString());
+                out.write(4096);
             }
         }
 
