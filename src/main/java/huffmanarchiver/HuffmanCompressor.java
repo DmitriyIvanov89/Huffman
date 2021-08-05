@@ -41,7 +41,7 @@ public class HuffmanCompressor {
                 }
 
                 //out.writeUTF(encodedData.toString());
-                out.write(4096);
+                out.write(1024);
             }
         }
 
