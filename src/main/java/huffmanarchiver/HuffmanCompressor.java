@@ -62,7 +62,7 @@ public class HuffmanCompressor {
 
             StringBuilder encodedFromFile = new StringBuilder();
             while (in.available() > 0) {
-                encodedFromFile.append(in.readUTF());
+                encodedFromFile.append(in.read());
             }
             // refactor this method
             HuffmanNode root = new HuffmanNode(null, 0);
