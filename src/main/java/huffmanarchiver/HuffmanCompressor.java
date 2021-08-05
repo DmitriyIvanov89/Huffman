@@ -1,5 +1,6 @@
 package huffmanarchiver;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.util.*;
 
@@ -83,6 +84,7 @@ public class HuffmanCompressor {
                     }
                 }
             }
+
             // decoding data & write in output file
             HuffmanNode currNode = root;
             for (int i = 0; i < encodedFromFile.length(); i++) {
