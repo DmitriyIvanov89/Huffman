@@ -10,8 +10,8 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 1024));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 1024))) {
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
+             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(in);
             HuffmanNode root = generateCodesTree(frequencies);
