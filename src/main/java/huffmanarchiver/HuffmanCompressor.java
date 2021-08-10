@@ -10,8 +10,8 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        try (DataInputStream firstInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
-             DataOutputStream firstOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)))) {
+        try (DataInputStream firstInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
+             DataOutputStream firstOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(firstInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
@@ -30,7 +30,7 @@ public class HuffmanCompressor {
              * open second stream for read bits from file
              * save bits firstInputStream OutputStream and transmit this stream firstInputStream decompress method
              */
-            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)))) {
+            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
                 StringBuilder encodedData = new StringBuilder();
 
                 while (secondInputStream.available() > 0) {
