@@ -10,8 +10,8 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
+        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 1024));
+             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 1024))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(in);
             HuffmanNode root = generateCodesTree(frequencies);
@@ -29,17 +29,13 @@ public class HuffmanCompressor {
              * add EOF symbol for fill last byte
              * open second stream for read bits from file
              * save bits in OutputStream and transmit this stream in decompress method
-             *
              */
-            try (DataInputStream secondIn = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
+            try (DataInputStream secondIn = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 1024))) {
                 StringBuilder encodedData = new StringBuilder();
-
                 while (secondIn.available() > 0) {
                     encodedData.append(codes.get(secondIn.readByte()));
                 }
-
                 out.writeUTF(encodedData.toString());
-                //out.write(1024);
             }
         }
 
@@ -62,6 +58,7 @@ public class HuffmanCompressor {
             while (in.available() > 0) {
                 encodedFromFile.append(in.readUTF());
             }
+
             // refactor this method
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
@@ -101,6 +98,7 @@ public class HuffmanCompressor {
                     currNode = root;
                 }
             }
+
 
             return decompressedFile;
         }
