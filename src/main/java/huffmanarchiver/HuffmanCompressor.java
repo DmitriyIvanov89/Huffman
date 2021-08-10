@@ -10,32 +10,34 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
+        try (DataInputStream firstInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
+             DataOutputStream firstOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)))) {
 
-            Map<Byte, Integer> frequencies = countFrequencies(in);
+            Map<Byte, Integer> frequencies = countFrequencies(firstInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            out.write(codes.size());
+            firstOutputStream.write(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                out.writeByte(entry.getKey());
-                out.writeUTF(codes.get(entry.getKey()));
+                firstOutputStream.writeByte(entry.getKey());
+                firstOutputStream.writeUTF(codes.get(entry.getKey()));
             }
 
             /*
              * add EOF symbol for fill last byte
              * open second stream for read bits from file
-             * save bits in OutputStream and transmit this stream in decompress method
+             * save bits firstInputStream OutputStream and transmit this stream firstInputStream decompress method
              */
-            try (DataInputStream secondIn = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 1024))) {
+            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)))) {
                 StringBuilder encodedData = new StringBuilder();
-                while (secondIn.available() > 0) {
-                    encodedData.append(codes.get(secondIn.readByte()));
+
+                while (secondInputStream.available() > 0) {
+                    encodedData.append(codes.get(secondInputStream.readByte()));
                 }
-                out.writeUTF(encodedData.toString());
+
+                firstOutputStream.writeUTF(encodedData.toString());
             }
         }
 
