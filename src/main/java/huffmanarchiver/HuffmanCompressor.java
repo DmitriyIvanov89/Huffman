@@ -5,7 +5,7 @@ import java.util.*;
 
 public class HuffmanCompressor {
 
-    private final File outputFile = new File(".\\src\\main\\resources\\compressed.txt");
+    private final File outputFile = new File(".\\src\\main\\resources\\compressed");
     private final File decompressedFile = new File(".\\src\\main\\resources\\decompress");
 
     public File compress(File originFile) throws IOException {
@@ -35,8 +35,8 @@ public class HuffmanCompressor {
                 while (secondInputStream.available() > 0) {
                     encodedData.append(codes.get(secondInputStream.readByte()));
                 }
-//
-//                firstOutputStream.writeUTF(encodedData.toString());
+
+                firstOutputStream.writeUTF(encodedData.toString());
 
 //                while (secondInputStream.available() > 0) {
 //                    firstOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
@@ -64,7 +64,7 @@ public class HuffmanCompressor {
 
             StringBuilder encodedFromFile = new StringBuilder();
             while (in.available() > 0) {
-                encodedFromFile.append(in.read());
+                encodedFromFile.append(in.readUTF());
             }
 
             // refactor this method
