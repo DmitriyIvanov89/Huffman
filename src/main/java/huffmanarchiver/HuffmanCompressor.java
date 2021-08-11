@@ -1,6 +1,7 @@
 package huffmanarchiver;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class HuffmanCompressor {
@@ -37,7 +38,8 @@ public class HuffmanCompressor {
                     encodedData.append(codes.get(secondInputStream.readByte()));
                 }
 
-                firstOutputStream.writeUTF(encodedData.toString());
+                byte[] data = encodedData.toString().getBytes();
+                firstOutputStream.write(data);
             }
         }
 
