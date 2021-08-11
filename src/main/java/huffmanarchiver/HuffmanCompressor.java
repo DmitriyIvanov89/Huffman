@@ -28,7 +28,6 @@ public class HuffmanCompressor {
             /*
              * add EOF symbol for fill last byte
              * open second stream for read bits from file
-             * save bits firstInputStream OutputStream and transmit this stream firstInputStream decompress method
              */
             try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
                 StringBuilder encodedData = new StringBuilder();
@@ -36,9 +35,15 @@ public class HuffmanCompressor {
                 while (secondInputStream.available() > 0) {
                     encodedData.append(codes.get(secondInputStream.readByte()));
                 }
+//
+//                firstOutputStream.writeUTF(encodedData.toString());
 
-                byte[] data = encodedData.toString().getBytes();
-                firstOutputStream.write(data);
+//                while (secondInputStream.available() > 0) {
+//                    firstOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
+//                }
+
+                
+
             }
         }
 
@@ -59,7 +64,7 @@ public class HuffmanCompressor {
 
             StringBuilder encodedFromFile = new StringBuilder();
             while (in.available() > 0) {
-                encodedFromFile.append(in.readUTF());
+                encodedFromFile.append(in.read());
             }
 
             // refactor this method
