@@ -10,19 +10,33 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        try (DataInputStream firstInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
-             DataOutputStream firstOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
+        InputStream inputStream = null;
+        BufferedInputStream bufferedInputStream = null;
+        DataInputStream dataInputStream = null;
+        OutputStream outputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
+        DataOutputStream dataOutputStream = null;
 
-            Map<Byte, Integer> frequencies = countFrequencies(firstInputStream);
+        try {
+
+            inputStream = new FileInputStream(originFile);
+            bufferedInputStream = new BufferedInputStream(inputStream);
+            dataInputStream = new DataInputStream(bufferedInputStream);
+
+            outputStream = new FileOutputStream(outputFile);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            dataOutputStream = new DataOutputStream(bufferedOutputStream);
+
+            Map<Byte, Integer> frequencies = countFrequencies(dataInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            firstOutputStream.write(codes.size());
+            bufferedOutputStream.write(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                firstOutputStream.writeByte(entry.getKey());
-                firstOutputStream.writeUTF(codes.get(entry.getKey()));
+                dataOutputStream.writeByte(entry.getKey());
+                dataOutputStream.writeUTF(codes.get(entry.getKey()));
             }
 
             /*
@@ -36,15 +50,18 @@ public class HuffmanCompressor {
                     encodedData.append(codes.get(secondInputStream.readByte()));
                 }
 
-                firstOutputStream.writeUTF(encodedData.toString());
-
-//                while (secondInputStream.available() > 0) {
-//                    firstOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
-//                }
-
-                
-
+                dataOutputStream.writeUTF(encodedData.toString());
             }
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+        } finally {
+            assert dataOutputStream != null;
+            dataOutputStream.close();
+            bufferedInputStream.close();
+            outputStream.close();
+            dataInputStream.close();
+            bufferedInputStream.close();
+            inputStream.close();
         }
 
         return outputFile;
