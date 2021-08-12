@@ -137,10 +137,10 @@ public class HuffmanCompressor {
 
     private void fillCodesTable(HuffmanNode node, String path, Map<Byte, String> codes) {
         if (node.getLeft() != null) {
-            fillCodesTable(node.getLeft(), path + 0, codes);
+            fillCodesTable(node.getLeft(), path + "0", codes);
         }
         if (node.getRight() != null) {
-            fillCodesTable(node.getRight(), path + 1, codes);
+            fillCodesTable(node.getRight(), path + "1", codes);
         }
         if (node.getLeft() == null && node.getRight() == null) {
             codes.put(node.getNodeByte(), path);
