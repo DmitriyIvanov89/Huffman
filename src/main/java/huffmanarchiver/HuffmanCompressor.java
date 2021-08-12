@@ -10,29 +10,15 @@ public class HuffmanCompressor {
 
     public File compress(File originFile) throws IOException {
 
-        InputStream inputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-        DataInputStream dataInputStream = null;
-        OutputStream outputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
-        DataOutputStream dataOutputStream = null;
-
-        try {
-
-            inputStream = new FileInputStream(originFile);
-            bufferedInputStream = new BufferedInputStream(inputStream);
-            dataInputStream = new DataInputStream(bufferedInputStream);
-
-            outputStream = new FileOutputStream(outputFile);
-            bufferedOutputStream = new BufferedOutputStream(outputStream);
-            dataOutputStream = new DataOutputStream(bufferedOutputStream);
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(dataInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            bufferedOutputStream.write(codes.size());
+            dataOutputStream.write(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 dataOutputStream.writeByte(entry.getKey());
@@ -52,16 +38,6 @@ public class HuffmanCompressor {
 
                 dataOutputStream.writeUTF(encodedData.toString());
             }
-        } catch (Exception exception) {
-            System.out.println(exception.getMessage());
-        } finally {
-            assert dataOutputStream != null;
-            dataOutputStream.close();
-            bufferedInputStream.close();
-            outputStream.close();
-            dataInputStream.close();
-            bufferedInputStream.close();
-            inputStream.close();
         }
 
         return outputFile;
