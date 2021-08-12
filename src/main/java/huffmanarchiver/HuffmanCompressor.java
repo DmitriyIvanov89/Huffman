@@ -30,7 +30,6 @@ public class HuffmanCompressor {
              * open second stream for read bits from file
              */
             try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
-                StringBuilder encodedData = new StringBuilder();
 
                 while (secondInputStream.available() > 0) {
                     dataOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
