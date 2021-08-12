@@ -33,10 +33,8 @@ public class HuffmanCompressor {
                 StringBuilder encodedData = new StringBuilder();
 
                 while (secondInputStream.available() > 0) {
-                    encodedData.append(codes.get(secondInputStream.readByte()));
+                    dataOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
                 }
-
-                dataOutputStream.writeUTF(encodedData.toString());
             }
         }
 
