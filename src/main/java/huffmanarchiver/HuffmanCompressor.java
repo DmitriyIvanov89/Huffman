@@ -24,12 +24,8 @@ public class HuffmanCompressor {
                 dataOutputStream.writeByte(entry.getKey());
                 dataOutputStream.writeUTF(codes.get(entry.getKey()));
             }
-
-            /*
-             * add EOF symbol for fill last byte
-             * open second stream for read bits from file
-             */
-            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
+            // add EOF symbol ?
+            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)))) {
 
                 while (secondInputStream.available() > 0) {
                     dataOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
@@ -42,19 +38,20 @@ public class HuffmanCompressor {
 
     public File decompress(File outputFile) throws IOException {
 
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile)));
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile)))) {
 
             Map<Byte, String> codes = new HashMap<>();
 
-            int codesTableSize = in.readByte();
+            int codesTableSize = dataInputStream.readByte();
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(in.readByte(), in.readUTF());
+                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
             }
 
             StringBuilder encodedFromFile = new StringBuilder();
-            while (in.available() > 0) {
-                encodedFromFile.append(in.readUTF());
+
+            while (dataInputStream.available() > 0) {
+                encodedFromFile.append(dataInputStream.readLine());
             }
 
             // refactor this method
@@ -92,7 +89,7 @@ public class HuffmanCompressor {
                     currNode = currNode.getRight();
                 }
                 if (currNode.getNodeByte() != null) {
-                    out.writeByte(currNode.getNodeByte());
+                    dataOutputStream.writeByte(currNode.getNodeByte());
                     currNode = root;
                 }
             }
