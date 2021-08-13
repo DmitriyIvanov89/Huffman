@@ -5,20 +5,20 @@ import java.util.*;
 
 public class HuffmanCompressor {
 
-    private final File outputFile = new File(".\\src\\main\\resources\\compressed");
+    private final File compressedFile = new File(".\\src\\main\\resources\\compressed");
     private final File decompressedFile = new File(".\\src\\main\\resources\\decompress");
 
     public File compress(File originFile) throws IOException {
 
         try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
-             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile)))) {
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(compressedFile)))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(dataInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            dataOutputStream.write(codes.size());
+            dataOutputStream.writeInt(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 dataOutputStream.writeByte(entry.getKey());
@@ -33,17 +33,17 @@ public class HuffmanCompressor {
             }
         }
 
-        return outputFile;
+        return compressedFile;
     }
 
-    public File decompress(File outputFile) throws IOException {
+    public File decompress(File compressedFile) throws IOException {
 
-        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile)));
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(compressedFile)));
              DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile)))) {
 
             Map<Byte, String> codes = new HashMap<>();
 
-            int codesTableSize = dataInputStream.readByte();
+            int codesTableSize = dataInputStream.readInt();
             for (int i = 0; i < codesTableSize; i++) {
                 codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
             }
@@ -93,7 +93,6 @@ public class HuffmanCompressor {
                     currNode = root;
                 }
             }
-
 
             return decompressedFile;
         }
