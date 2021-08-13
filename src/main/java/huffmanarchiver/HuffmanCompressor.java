@@ -5,13 +5,13 @@ import java.util.*;
 
 public class HuffmanCompressor {
 
-    private final File compressedFile = new File(".\\src\\main\\resources\\compressed");
-    private final File decompressedFile = new File(".\\src\\main\\resources\\decompress");
+    private final File archivedFile = new File(".\\src\\main\\resources\\archived");
+    private final File unzippedFile = new File(".\\src\\main\\resources\\unzipped");
 
-    public File compress(File originFile) throws IOException {
+    public File archive(File originFile) throws IOException {
 
         try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
-             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(compressedFile)))) {
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(archivedFile)))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(dataInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
@@ -33,13 +33,13 @@ public class HuffmanCompressor {
             }
         }
 
-        return compressedFile;
+        return archivedFile;
     }
 
-    public File decompress(File compressedFile) throws IOException {
+    public File unzip(File archivedFile) throws IOException {
 
-        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(compressedFile)));
-             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile)))) {
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
 
             Map<Byte, String> codes = new HashMap<>();
 
@@ -94,7 +94,7 @@ public class HuffmanCompressor {
                 }
             }
 
-            return decompressedFile;
+            return unzippedFile;
         }
     }
 

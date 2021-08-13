@@ -5,12 +5,12 @@ import java.io.*;
 public class Huffman {
 
     private static final String PATH = ".\\src\\main\\resources\\test3.png";
-    private static final File file = new File(PATH);
+    private static final File originFile = new File(PATH);
 
     public static void main(String[] args) throws IOException {
 
-        File compress = new HuffmanCompressor().compress(file);
-        File decompress = new HuffmanCompressor().decompress(compress);
+        File archived = new HuffmanCompressor().archive(originFile);
+        File unzipped = new HuffmanCompressor().unzip(archived);
 
     }
 }
