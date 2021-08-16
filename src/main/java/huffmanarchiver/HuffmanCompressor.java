@@ -5,61 +5,53 @@ import java.util.*;
 
 public class HuffmanCompressor {
 
-    private final File outputFile = new File(".\\src\\main\\resources\\compressed.txt");
-    private final File decompressedFile = new File(".\\src\\main\\resources\\decompress");
+    private final File archivedFile = new File(".\\src\\main\\resources\\archived");
+    private final File unzippedFile = new File(".\\src\\main\\resources\\unzipped");
 
-    public File compress(File originFile) throws IOException {
+    public File archive(File originFile) throws IOException {
 
-        try (DataInputStream firstInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096));
-             DataOutputStream firstOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(outputFile), 4096))) {
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(archivedFile)))) {
 
-            Map<Byte, Integer> frequencies = countFrequencies(firstInputStream);
+            Map<Byte, Integer> frequencies = countFrequencies(dataInputStream);
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
-            firstOutputStream.write(codes.size());
+            dataOutputStream.writeInt(codes.size());
 
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-                firstOutputStream.writeByte(entry.getKey());
-                firstOutputStream.writeUTF(codes.get(entry.getKey()));
+                dataOutputStream.writeByte(entry.getKey());
+                dataOutputStream.writeUTF(codes.get(entry.getKey()));
             }
-
-            /*
-             * add EOF symbol for fill last byte
-             * open second stream for read bits from file
-             * save bits firstInputStream OutputStream and transmit this stream firstInputStream decompress method
-             */
-            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile), 4096))) {
-                StringBuilder encodedData = new StringBuilder();
+            // add EOF symbol ?
+            try (DataInputStream secondInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)))) {
 
                 while (secondInputStream.available() > 0) {
-                    encodedData.append(codes.get(secondInputStream.readByte()));
+                    dataOutputStream.writeBytes(codes.get(secondInputStream.readByte()));
                 }
-
-                byte[] data = encodedData.toString().getBytes();
-                firstOutputStream.write(data);
             }
         }
 
-        return outputFile;
+        return archivedFile;
     }
 
-    public File decompress(File outputFile) throws IOException {
+    public File unzip(File archivedFile) throws IOException {
 
-        try (DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(outputFile), 4096));
-             DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(decompressedFile), 4096))) {
+        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
+             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
 
             Map<Byte, String> codes = new HashMap<>();
 
-            int codesTableSize = in.readByte();
+            int codesTableSize = dataInputStream.readInt();
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(in.readByte(), in.readUTF());
+                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
             }
 
             StringBuilder encodedFromFile = new StringBuilder();
-            while (in.available() > 0) {
-                encodedFromFile.append(in.readUTF());
+
+            while (dataInputStream.available() > 0) {
+                encodedFromFile.append(dataInputStream.readLine());
             }
 
             // refactor this method
@@ -97,13 +89,12 @@ public class HuffmanCompressor {
                     currNode = currNode.getRight();
                 }
                 if (currNode.getNodeByte() != null) {
-                    out.writeByte(currNode.getNodeByte());
+                    dataOutputStream.writeByte(currNode.getNodeByte());
                     currNode = root;
                 }
             }
 
-
-            return decompressedFile;
+            return unzippedFile;
         }
     }
 
@@ -139,10 +130,10 @@ public class HuffmanCompressor {
 
     private void fillCodesTable(HuffmanNode node, String path, Map<Byte, String> codes) {
         if (node.getLeft() != null) {
-            fillCodesTable(node.getLeft(), path + 0, codes);
+            fillCodesTable(node.getLeft(), path + "0", codes);
         }
         if (node.getRight() != null) {
-            fillCodesTable(node.getRight(), path + 1, codes);
+            fillCodesTable(node.getRight(), path + "1", codes);
         }
         if (node.getLeft() == null && node.getRight() == null) {
             codes.put(node.getNodeByte(), path);
