@@ -10,6 +10,7 @@ public class HuffmanCompressor {
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archive"))) {
 
             Map<Byte, Integer> frequencies = countFrequencies(pathOriginFile);
+            // add EOF Node to Huffman Tree
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
@@ -21,7 +22,7 @@ public class HuffmanCompressor {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
             }
-            // change this method (bit record)
+
             writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
         }
     }
