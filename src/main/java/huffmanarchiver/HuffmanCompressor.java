@@ -16,11 +16,12 @@ public class HuffmanCompressor {
 
             dataOutputStream.write(codes.size());
 
+            // change this method (bit record)
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
             }
-
+            // change this method (bit record)
             writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
         }
     }
@@ -137,6 +138,11 @@ public class HuffmanCompressor {
                 dataOutputStream.writeBytes(codes.get(dataInputStream.readByte()));
             }
         }
+    }
+
+    private void insertEofToTree() {
+        HuffmanNode eof = new HuffmanNode(null, 1);
+
     }
 
 }
