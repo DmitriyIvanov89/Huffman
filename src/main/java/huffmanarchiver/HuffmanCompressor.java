@@ -17,7 +17,7 @@ public class HuffmanCompressor {
 
             dataOutputStream.write(codes.size());
 
-            // change this method (bit record)
+            // change this method (bit record with blocking queue)
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
@@ -143,7 +143,7 @@ public class HuffmanCompressor {
 
     private void insertEofToTree() {
         HuffmanNode eof = new HuffmanNode(null, 1);
-
+        
     }
 
 }
