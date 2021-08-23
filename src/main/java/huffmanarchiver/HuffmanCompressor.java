@@ -12,6 +12,7 @@ public class HuffmanCompressor {
             Map<Byte, Integer> frequencies = countFrequencies(pathOriginFile);
             // add EOF Node to Huffman Tree
             HuffmanNode root = generateCodesTree(frequencies);
+            insertEofSymbol(root);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
@@ -141,9 +142,8 @@ public class HuffmanCompressor {
         }
     }
 
-    private void insertEofToTree() {
-        HuffmanNode eof = new HuffmanNode(null, 1);
+    private void insertEofSymbol(HuffmanNode root) {
+        HuffmanNode eof = new HuffmanNode(null, 0);
         
     }
-
 }
