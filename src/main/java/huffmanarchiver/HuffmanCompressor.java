@@ -8,7 +8,7 @@ public class HuffmanCompressor {
     private final File archivedFile = new File(".\\src\\main\\resources\\archived");
     private final File unzippedFile = new File(".\\src\\main\\resources\\unzipped");
 
-    public File archive(File originFile) throws IOException {
+    public void archive(File originFile) throws IOException {
 
         try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(originFile)));
              DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(archivedFile)))) {
@@ -33,10 +33,10 @@ public class HuffmanCompressor {
             }
         }
 
-        return archivedFile;
+//        return archivedFile;
     }
 
-    public File unzip(File archivedFile) throws IOException {
+    public void unzip(File archivedFile) throws IOException {
 
         try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
              DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
@@ -94,7 +94,7 @@ public class HuffmanCompressor {
                 }
             }
 
-            return unzippedFile;
+//            return unzippedFile;
         }
     }
 
