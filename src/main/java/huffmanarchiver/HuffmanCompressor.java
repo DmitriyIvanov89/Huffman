@@ -12,18 +12,17 @@ public class HuffmanCompressor {
             Map<Byte, Integer> frequencies = countFrequencies(pathOriginFile);
             // add EOF Node to Huffman Tree
             HuffmanNode root = generateCodesTree(frequencies);
-            insertEofSymbol(root);
             Map<Byte, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
             dataOutputStream.write(codes.size());
 
-            // change this method (bit record with blocking queue)
+            // mod this methods (bit record with blocking queue)
             for (Map.Entry<Byte, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
             }
-            // change this method (bit record with blocking queue)
+
             writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
         }
     }
@@ -102,6 +101,7 @@ public class HuffmanCompressor {
                 }
             }
         }
+
         return frequencies;
     }
 
@@ -110,6 +110,8 @@ public class HuffmanCompressor {
         for (Map.Entry<Byte, Integer> entry : frequencies.entrySet()) {
             nodes.add(new HuffmanNode(entry.getKey(), entry.getValue()));
         }
+        HuffmanNode eof = new HuffmanNode(Byte.MAX_VALUE, -1);
+        nodes.add(eof);
 
         while (nodes.size() > 1) {
             Collections.sort(nodes);
@@ -140,17 +142,5 @@ public class HuffmanCompressor {
                 dataOutputStream.writeBytes(codes.get(dataInputStream.readByte()));
             }
         }
-    }
-
-    private HuffmanNode insertEofSymbol(HuffmanNode root) {
-        HuffmanNode eof = new HuffmanNode(null, 0);
-        if (root.getLeft() != null) {
-            insertEofSymbol(root.getLeft());
-        } else if (root.getRight() != null) {
-            insertEofSymbol(root.getRight());
-        } else if (root.getLeft() == null && root.getRight() == null) {
-            root.setLeft(eof);
-        }
-        return root;
     }
 }
