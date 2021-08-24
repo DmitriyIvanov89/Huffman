@@ -13,17 +13,7 @@ public class HuffmanCompressor {
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Short, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
-
-            dataOutputStream.writeByte(codes.size());
-
-
-
-//            for (Map.Entry<Short, String> entry : codes.entrySet()) {
-//                dataOutputStream.write(Byte.parseByte(entry.getKey().toString()));
-//                dataOutputStream.write(Byte.parseByte(entry.getValue().toString());
-//            }
-
-//            writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
+            
         }
     }
 
