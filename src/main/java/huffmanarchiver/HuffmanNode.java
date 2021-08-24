@@ -2,25 +2,25 @@ package huffmanarchiver;
 
 public class HuffmanNode implements Comparable<HuffmanNode> {
 
-    private Byte nodeByte;
+    private Short value;
     private final int frequency;
     private HuffmanNode left;
     private HuffmanNode right;
 
-    public HuffmanNode(Byte nodeByte, int frequency) {
-        this.nodeByte = nodeByte;
+    public HuffmanNode(Short value, int frequency) {
+        this.value = value;
         this.frequency = frequency;
     }
 
-    public HuffmanNode(Byte nodeByte, int frequency, HuffmanNode left, HuffmanNode right) {
-        this.nodeByte = nodeByte;
+    public HuffmanNode(Short value, int frequency, HuffmanNode left, HuffmanNode right) {
+        this.value = value;
         this.frequency = frequency;
         this.left = left;
         this.right = right;
     }
 
-    public Byte getNodeByte() {
-        return nodeByte;
+    public Short getValue() {
+        return value;
     }
 
     public int getFrequency() {
@@ -43,8 +43,8 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
         this.right = right;
     }
 
-    public void setNodeByte(Byte nodeByte) {
-        this.nodeByte = nodeByte;
+    public void setValue(short value) {
+        this.value = value;
     }
 
     @Override
