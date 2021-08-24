@@ -23,7 +23,7 @@ public class HuffmanCompressor {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
             }
-
+            // change this method (bit record with blocking queue)
             writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
         }
     }
@@ -142,8 +142,15 @@ public class HuffmanCompressor {
         }
     }
 
-    private void insertEofSymbol(HuffmanNode root) {
+    private HuffmanNode insertEofSymbol(HuffmanNode root) {
         HuffmanNode eof = new HuffmanNode(null, 0);
-        
+        if (root.getLeft() != null) {
+            insertEofSymbol(root.getLeft());
+        } else if (root.getRight() != null) {
+            insertEofSymbol(root.getRight());
+        } else if (root.getLeft() == null && root.getRight() == null) {
+            root.setLeft(eof);
+        }
+        return root;
     }
 }
