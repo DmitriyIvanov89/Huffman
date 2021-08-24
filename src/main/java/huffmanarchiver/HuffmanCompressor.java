@@ -9,17 +9,17 @@ public class HuffmanCompressor {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archive"))) {
 
-            Map<Byte, Integer> frequencies = countFrequencies(pathOriginFile);
+            Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
             // add EOF Node to Huffman Tree
             HuffmanNode root = generateCodesTree(frequencies);
             insertEofSymbol(root);
-            Map<Byte, String> codes = new HashMap<>();
+            Map<Short, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
 
             dataOutputStream.write(codes.size());
 
             // change this method (bit record with blocking queue)
-            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+            for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
                 dataOutputStream.writeBytes(entry.getValue());
             }
@@ -90,11 +90,11 @@ public class HuffmanCompressor {
 //        }
 //    }
 
-    private Map<Byte, Integer> countFrequencies(String pathOriginFile) throws IOException {
-        Map<Byte, Integer> frequencies = new HashMap<>();
+    private Map<Short, Integer> countFrequencies(String pathOriginFile) throws IOException {
+        Map<Short, Integer> frequencies = new HashMap<>();
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathOriginFile))) {
             while (dataInputStream.available() > 0) {
-                byte symbol = dataInputStream.readByte();
+                short symbol = dataInputStream.readByte();
                 if (frequencies.containsKey(symbol)) {
                     frequencies.put(symbol, frequencies.get(symbol) + 1);
                 } else {
@@ -105,9 +105,9 @@ public class HuffmanCompressor {
         return frequencies;
     }
 
-    private HuffmanNode generateCodesTree(Map<Byte, Integer> frequencies) {
+    private HuffmanNode generateCodesTree(Map<Short, Integer> frequencies) {
         List<HuffmanNode> nodes = new ArrayList<>();
-        for (Map.Entry<Byte, Integer> entry : frequencies.entrySet()) {
+        for (Map.Entry<Short, Integer> entry : frequencies.entrySet()) {
             nodes.add(new HuffmanNode(entry.getKey(), entry.getValue()));
         }
 
@@ -122,7 +122,7 @@ public class HuffmanCompressor {
         return nodes.get(0);
     }
 
-    private void fillCodesTable(HuffmanNode node, String path, Map<Byte, String> codes) {
+    private void fillCodesTable(HuffmanNode node, String path, Map<Short, String> codes) {
         if (node.getLeft() != null) {
             fillCodesTable(node.getLeft(), path + "0", codes);
         }
@@ -130,11 +130,11 @@ public class HuffmanCompressor {
             fillCodesTable(node.getRight(), path + "1", codes);
         }
         if (node.getLeft() == null && node.getRight() == null) {
-            codes.put(node.getNodeByte(), path);
+            codes.put(node.getValue(), path);
         }
     }
 
-    private void writeAllDataFromFile(String pathOriginFile, DataOutputStream dataOutputStream, Map<Byte, String> codes) throws IOException {
+    private void writeAllDataFromFile(String pathOriginFile, DataOutputStream dataOutputStream, Map<Short, String> codes) throws IOException {
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathOriginFile))) {
             while (dataInputStream.available() > 0) {
                 dataOutputStream.writeBytes(codes.get(dataInputStream.readByte()));
