@@ -7,7 +7,7 @@ public class HuffmanCompressor {
 
     public void archive(String pathOriginFile) throws IOException {
 
-        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archive"))) {
+        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archived"))) {
 
             Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
             HuffmanNode root = generateCodesTree(frequencies);
@@ -15,15 +15,14 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
 
             dataOutputStream.writeByte(codes.size());
+            
 
+//            for (Map.Entry<Short, String> entry : codes.entrySet()) {
+//                dataOutputStream.write(entry.getKey());
+//                dataOutputStream.writeBytes(entry.getValue());
+//            }
 
-            // mod this methods (bit record with blocking queue and Byte.parseByte())
-            for (Map.Entry<Short, String> entry : codes.entrySet()) {
-                dataOutputStream.write(entry.getKey());
-                dataOutputStream.writeBytes(entry.getValue());
-            }
-
-            writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
+//            writeAllDataFromFile(pathOriginFile, dataOutputStream, codes);
         }
     }
 
