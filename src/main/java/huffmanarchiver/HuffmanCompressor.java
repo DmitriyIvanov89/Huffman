@@ -140,21 +140,22 @@ public class HuffmanCompressor {
     private void writeToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
+            dataOutputStream.writeByte(codes.size());
             StringBuilder bits = new StringBuilder();
             List<Byte> buffer = new ArrayList<>();
             int countBits = 0;
-            dataOutputStream.writeByte(codes.size());
             for (int i = 0; i < encodedData.length(); i++) {
                 countBits++;
                 bits.append(encodedData.charAt(i));
                 if (countBits % 8 == 0) {
-                    byte newByte = Byte.parseByte(bits.toString(),2);
-                    bits.delete(0,bits.length());
+                    byte newByte = Byte.parseByte(bits.toString());
+                    bits.delete(0, bits.length());
                     buffer.add(newByte);
                     countBits = 0;
                 }
             }
-//            dataOutputStream.write(buffer);
+
+            dataOutputStream.writeBytes(buffer.toString());
         }
     }
 }
