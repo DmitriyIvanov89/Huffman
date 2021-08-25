@@ -2,6 +2,8 @@ package huffmanarchiver;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class HuffmanCompressor {
 
@@ -15,7 +17,12 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
             StringBuilder encodedData = encodeData(pathOriginFile, codes);
 
-            
+            byte[] buffer = new byte[2048];
+            BlockingQueue<String> queue = new ArrayBlockingQueue<String>(buffer.length);
+            for (Map.Entry<Short, String> entry : codes.entrySet()) {
+                queue.add(entry.getValue());
+            }
+
         }
     }
 
@@ -139,4 +146,13 @@ public class HuffmanCompressor {
         stringBuilder.append(codes.get(Short.MAX_VALUE));
         return stringBuilder;
     }
+
+//    private void writeToArchiveFile(DataOutputStream dataOutputStream, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
+//        byte[] buffer = new byte[2048];
+//        BlockingDeque<Byte> blockingDeque = new ArrayBlockingQueue<String>(buffer.length);
+//
+//
+//
+//    }
+
 }

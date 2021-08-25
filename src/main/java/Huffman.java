@@ -6,8 +6,7 @@ public class Huffman {
 
     public static void main(String[] args) throws IOException {
 
-        new HuffmanCompressor().archive(".\\src\\main\\resources\\test");
-
+//        new HuffmanCompressor().archive(".\\src\\main\\resources\\test");
 
     }
 }
