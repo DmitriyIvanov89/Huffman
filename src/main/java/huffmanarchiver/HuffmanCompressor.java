@@ -7,18 +7,14 @@ import java.util.concurrent.BlockingQueue;
 
 public class HuffmanCompressor {
 
-    public void archive(String pathOriginFile) throws IOException {
+    public void archive(String pathOriginFile, String pathToArchivedFile) throws IOException {
 
-        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archived.huf"))) {
+        Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
+        HuffmanNode root = generateCodesTree(frequencies);
+        Map<Short, String> codes = new HashMap<>();
+        fillCodesTable(root, "", codes);
+        StringBuilder encodedData = encodeData(pathOriginFile, codes);
 
-            Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
-            HuffmanNode root = generateCodesTree(frequencies);
-            Map<Short, String> codes = new HashMap<>();
-            fillCodesTable(root, "", codes);
-            StringBuilder encodedData = encodeData(pathOriginFile, codes);
-
-
-        }
     }
 
 //    public File unzip(File archivedFile) throws IOException {
@@ -142,9 +138,13 @@ public class HuffmanCompressor {
         return stringBuilder;
     }
 
-    private void writeToArchiveFile(DataOutputStream dataOutputStream, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
-        byte[] buffer = new byte[2048];
-        BlockingQueue<Short> queue = new ArrayBlockingQueue<Short>(buffer.length);
+    private void writeToArchiveFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
+
+        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
+            byte[] buffer = new byte[256];
+            BlockingQueue<Byte> queue = new ArrayBlockingQueue<Byte>(buffer.length);
+
+        }
 
     }
 
