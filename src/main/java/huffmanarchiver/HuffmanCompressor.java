@@ -2,8 +2,6 @@ package huffmanarchiver;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class HuffmanCompressor {
 
@@ -14,6 +12,7 @@ public class HuffmanCompressor {
         Map<Short, String> codes = new HashMap<>();
         fillCodesTable(root, "", codes);
         StringBuilder encodedData = encodeData(pathOriginFile, codes);
+        writeToFile(pathToArchivedFile, encodedData, codes);
 
     }
 
@@ -138,14 +137,24 @@ public class HuffmanCompressor {
         return stringBuilder;
     }
 
-    private void writeToArchiveFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
+    private void writeToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
-            byte[] buffer = new byte[256];
-            BlockingQueue<Byte> queue = new ArrayBlockingQueue<Byte>(buffer.length);
-
+            StringBuilder bits = new StringBuilder();
+            List<Byte> buffer = new ArrayList<>();
+            int countBits = 0;
+            dataOutputStream.writeByte(codes.size());
+            for (int i = 0; i < encodedData.length(); i++) {
+                countBits++;
+                bits.append(encodedData.charAt(i));
+                if (countBits % 8 == 0) {
+                    byte newByte = Byte.parseByte(bits.toString(),2);
+                    bits.delete(0,bits.length());
+                    buffer.add(newByte);
+                    countBits = 0;
+                }
+            }
+//            dataOutputStream.write(buffer);
         }
-
     }
-
 }
