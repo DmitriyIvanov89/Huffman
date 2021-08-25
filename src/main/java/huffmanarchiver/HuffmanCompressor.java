@@ -2,6 +2,8 @@ package huffmanarchiver;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class HuffmanCompressor {
 
@@ -13,6 +15,8 @@ public class HuffmanCompressor {
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Short, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
+            StringBuilder encodedData = encodeData(pathOriginFile, codes);
+
 
         }
     }
@@ -126,11 +130,22 @@ public class HuffmanCompressor {
         }
     }
 
-    private void writeAllDataFromFile(String pathOriginFile, DataOutputStream dataOutputStream, Map<Short, String> codes) throws IOException {
+    private StringBuilder encodeData(String pathOriginFile, Map<Short, String> codes) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathOriginFile))) {
-            while (dataInputStream.available() > 0) {
-                dataOutputStream.writeBytes(codes.get(dataInputStream.readByte()));
+            while (dataInputStream.available() > 1) {
+                short symbol = dataInputStream.readByte();
+                stringBuilder.append(codes.get(symbol));
             }
         }
+        stringBuilder.append(codes.get(Short.MAX_VALUE));
+        return stringBuilder;
     }
+
+    private void writeToArchiveFile(DataOutputStream dataOutputStream, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
+        byte[] buffer = new byte[2048];
+        BlockingQueue<Short> queue = new ArrayBlockingQueue<Short>(buffer.length);
+
+    }
+
 }
