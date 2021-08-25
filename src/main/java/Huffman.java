@@ -8,5 +8,6 @@ public class Huffman {
 
         new HuffmanCompressor().archive(".\\src\\main\\resources\\test");
 
+
     }
 }
