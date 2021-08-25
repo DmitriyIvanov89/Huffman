@@ -13,7 +13,7 @@ public class HuffmanCompressor {
             HuffmanNode root = generateCodesTree(frequencies);
             Map<Short, String> codes = new HashMap<>();
             fillCodesTable(root, "", codes);
-            
+
         }
     }
 
