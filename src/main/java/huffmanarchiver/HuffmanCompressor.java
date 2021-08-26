@@ -141,14 +141,14 @@ public class HuffmanCompressor {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
             dataOutputStream.writeByte(codes.size());
-            StringBuilder bits = new StringBuilder();
             List<Byte> buffer = new ArrayList<>();
+            StringBuilder bits = new StringBuilder();
             int countBits = 0;
             for (int i = 0; i < encodedData.length(); i++) {
                 countBits++;
                 bits.append(encodedData.charAt(i));
                 if (countBits % 8 == 0) {
-                    byte newByte = Byte.parseByte(bits.toString());
+                    byte newByte = Byte.parseByte(bits.toString(), 2);
                     bits.delete(0, bits.length());
                     buffer.add(newByte);
                     countBits = 0;
