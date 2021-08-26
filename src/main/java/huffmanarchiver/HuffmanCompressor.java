@@ -2,22 +2,18 @@ package huffmanarchiver;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class HuffmanCompressor {
 
-    public void archive(String pathOriginFile) throws IOException {
+    public void archive(String pathOriginFile, String pathToArchivedFile) throws IOException {
 
-        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(".\\src\\main\\resources\\archived.huf"))) {
+        Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
+        HuffmanNode root = generateCodesTree(frequencies);
+        Map<Short, String> codes = new HashMap<>();
+        fillCodesTable(root, "", codes);
+        StringBuilder encodedData = encodeData(pathOriginFile, codes);
+        writeToFile(pathToArchivedFile, encodedData, codes);
 
-            Map<Short, Integer> frequencies = countFrequencies(pathOriginFile);
-            HuffmanNode root = generateCodesTree(frequencies);
-            Map<Short, String> codes = new HashMap<>();
-            fillCodesTable(root, "", codes);
-            StringBuilder encodedData = encodeData(pathOriginFile, codes);
-
-        }
     }
 
 //    public File unzip(File archivedFile) throws IOException {
@@ -141,12 +137,25 @@ public class HuffmanCompressor {
         return stringBuilder;
     }
 
-//    private void writeToArchiveFile(DataOutputStream dataOutputStream, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
-//        byte[] buffer = new byte[2048];
-//        BlockingDeque<Byte> blockingDeque = new ArrayBlockingQueue<String>(buffer.length);
-//
-//
-//
-//    }
+    private void writeToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
+        try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
+            dataOutputStream.writeByte(codes.size());
+            StringBuilder bits = new StringBuilder();
+            List<Byte> buffer = new ArrayList<>();
+            int countBits = 0;
+            for (int i = 0; i < encodedData.length(); i++) {
+                countBits++;
+                bits.append(encodedData.charAt(i));
+                if (countBits % 8 == 0) {
+                    byte newByte = Byte.parseByte(bits.toString());
+                    bits.delete(0, bits.length());
+                    buffer.add(newByte);
+                    countBits = 0;
+                }
+            }
+
+            dataOutputStream.writeBytes(buffer.toString());
+        }
+    }
 }
