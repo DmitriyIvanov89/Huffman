@@ -17,12 +17,6 @@ public class HuffmanCompressor {
             fillCodesTable(root, "", codes);
             StringBuilder encodedData = encodeData(pathOriginFile, codes);
 
-            byte[] buffer = new byte[2048];
-            BlockingQueue<String> queue = new ArrayBlockingQueue<String>(buffer.length);
-            for (Map.Entry<Short, String> entry : codes.entrySet()) {
-                queue.add(entry.getValue());
-            }
-
         }
     }
 
