@@ -155,7 +155,9 @@ public class HuffmanCompressor {
                 }
             }
 
-            dataOutputStream.write(Arrays.toString(buffer));
+            for (Integer element : buffer) {
+                dataOutputStream.write(element);
+            }
         }
     }
 }
