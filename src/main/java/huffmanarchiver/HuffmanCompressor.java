@@ -141,23 +141,26 @@ public class HuffmanCompressor {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
             dataOutputStream.writeByte(codes.size());
-            List<Integer> buffer = new ArrayList<>();
+
+
             StringBuilder bits = new StringBuilder();
             int countBits = 0;
             for (int i = 0; i < encodedData.length(); i++) {
                 countBits++;
                 bits.append(encodedData.charAt(i));
                 if (countBits % 8 == 0) {
-                    int newByte = Byte.parseByte(bits.toString(), 2);
+                    short currByte = (byte) Short.parseShort(bits.toString(), 2);
+                    dataOutputStream.writeByte((byte) currByte);
                     bits.delete(0, bits.length());
-                    buffer.add(newByte);
                     countBits = 0;
                 }
             }
 
-            for (Integer element : buffer) {
-                dataOutputStream.write(element);
-            }
+            System.out.println("end");
         }
+    }
+
+    private void bitTiByteWriter(String pathToArchivedFile, StringBuilder data) {
+
     }
 }
