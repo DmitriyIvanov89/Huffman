@@ -142,6 +142,10 @@ public class HuffmanCompressor {
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
             dataOutputStream.writeByte(codes.size());
 
+            /*
+            * Write the code table
+            * first write symbol(write.Byte())
+            * second write symbol cod (create massive bytes from string code)*/
 
             StringBuilder bits = new StringBuilder();
             int countBits = 0;
