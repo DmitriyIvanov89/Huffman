@@ -155,12 +155,7 @@ public class HuffmanCompressor {
                     countBits = 0;
                 }
             }
-
-            System.out.println("end");
         }
     }
 
-    private void bitTiByteWriter(String pathToArchivedFile, StringBuilder data) {
-
-    }
 }
