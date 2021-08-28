@@ -17,15 +17,17 @@ public class HuffmanCompressor {
     }
 
     public void unzip(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
-
         /*
         Refactor method
-        * 1. Read codes table size
-        * 2. Read codes table(on size from 1 step)
-        * 3. Create Huffman tree from codes table
-        * 4. Walking the tree with decryption of data
+        * 1. Read codes table size -- readDataFromArchivedFile
+        * 2. Read codes table(on size from 1 step) -- readDataFromArchivedFile
+        * 3. Read decoded data from file -- readDataFromArchivedFile
+        * 4. Create Huffman tree from codes table --
+        * 5. Walking the tree with decryption of data
         */
-        
+
+        decodeData(pathToArchiveFile);
+
 
 //        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
 //             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
@@ -44,31 +46,31 @@ public class HuffmanCompressor {
 //            }
 //
 //            // refactor this method
-//            HuffmanNode root = new HuffmanNode(null, 0);
-//            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-//                HuffmanNode currNode = root;
-//                for (int i = 0; i < entry.getValue().length(); i++) {
-//                    if (entry.getValue().charAt(i) == '1') {
-//                        if (currNode.getRight() == null) {
-//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                            currNode.setRight(newNode);
-//                            currNode = newNode;
-//                        } else {
-//                            currNode = currNode.getRight();
-//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                        }
-//                    } else if (entry.getValue().charAt(i) == '0') {
-//                        if (currNode.getLeft() == null) {
-//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                            currNode.setLeft(newNode);
-//                            currNode = newNode;
-//                        } else {
-//                            currNode = currNode.getLeft();
-//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                        }
+//        HuffmanNode root = new HuffmanNode(null, 0);
+//        for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+//            HuffmanNode currNode = root;
+//            for (int i = 0; i < entry.getValue().length(); i++) {
+//                if (entry.getValue().charAt(i) == '1') {
+//                    if (currNode.getRight() == null) {
+//                        HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+//                        currNode.setRight(newNode);
+//                        currNode = newNode;
+//                    } else {
+//                        currNode = currNode.getRight();
+//                        currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+//                    }
+//                } else if (entry.getValue().charAt(i) == '0') {
+//                    if (currNode.getLeft() == null) {
+//                        HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+//                        currNode.setLeft(newNode);
+//                        currNode = newNode;
+//                    } else {
+//                        currNode = currNode.getLeft();
+//                        currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
 //                    }
 //                }
 //            }
+//        }
 //
 //            HuffmanNode currNode = root;
 //            for (int i = 0; i < encodedFromFile.length(); i++) {
@@ -171,4 +173,49 @@ public class HuffmanCompressor {
         }
     }
 
+    private void decodeData(String pathToArchiveFile) throws IOException {
+        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
+            Map<Byte, Byte> codes = new HashMap<>();
+            int codesTableSize = dataInputStream.readByte();
+
+            for (int i = 0; i < codesTableSize; i++) {
+                codes.put(dataInputStream.readByte(), dataInputStream.readByte());
+            }
+
+            StringBuilder stringBuilder = new StringBuilder();
+            while (dataInputStream.available() > 0) {
+                stringBuilder.append(dataInputStream.read());
+            }
+
+//            HuffmanNode root = new HuffmanNode(null, 0);
+//            for (Map.Entry<Byte, Byte> entry : codes.entrySet()) {
+//                HuffmanNode currNode = root;
+//                for (int i = 0; i < entry.getValue(); i++) {
+//                    if (entry.getValue().charAt(i) == '1') {
+//                        if (currNode.getRight() == null) {
+//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+//                            currNode.setRight(newNode);
+//                            currNode = newNode;
+//                        } else {
+//                            currNode = currNode.getRight();
+//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+//                        }
+//                    } else if (entry.getValue().charAt(i) == '0') {
+//                        if (currNode.getLeft() == null) {
+//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+//                            currNode.setLeft(newNode);
+//                            currNode = newNode;
+//                        } else {
+//                            currNode = currNode.getLeft();
+//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        }
+    }
+
+//    private void writeToUnzippedFile (String pathToUnzippedFile)throw IOException {
+//    }
 }
