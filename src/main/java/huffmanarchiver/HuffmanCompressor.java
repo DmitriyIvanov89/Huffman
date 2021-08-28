@@ -158,8 +158,8 @@ public class HuffmanCompressor {
                 countBits++;
                 bits.append(encodedData.charAt(i));
                 if (countBits % 8 == 0) {
-                    short currByte = (byte) Short.parseShort(bits.toString(), 2);
-                    dataOutputStream.writeByte((byte) currByte);
+                    byte currByte = (byte) Short.parseShort(bits.toString(), 2);
+                    dataOutputStream.writeByte(currByte);
                     bits.delete(0, bits.length());
                     countBits = 0;
                 }
