@@ -140,13 +140,8 @@ public class HuffmanCompressor {
     private void writeToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
+
             dataOutputStream.writeByte(codes.size());
-
-            /*
-             * Write the code table
-             * first write symbol(write.Byte())
-             * second write symbol cod (create massive bytes from string code)*/
-
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.writeByte(entry.getKey());
                 dataOutputStream.write(entry.getValue().getBytes());
