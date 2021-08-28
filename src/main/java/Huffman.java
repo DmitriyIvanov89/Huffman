@@ -2,7 +2,6 @@ import huffmanarchiver.HuffmanCompressor;
 
 import java.io.*;
 
-
 public class Huffman {
 
     public static void main(String[] args) throws IOException {

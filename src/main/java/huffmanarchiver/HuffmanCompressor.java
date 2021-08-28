@@ -16,8 +16,17 @@ public class HuffmanCompressor {
 
     }
 
-//    public File unzip(File archivedFile) throws IOException {
-//
+    public void unzip(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
+
+        /*
+        Refactor method
+        * 1. Read codes table size
+        * 2. Read codes table(on size from 1 step)
+        * 3. Create Huffman tree from codes table
+        * 4. Walking the tree with decryption of data
+        */
+        
+
 //        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
 //             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
 //
@@ -76,7 +85,7 @@ public class HuffmanCompressor {
 //
 //            return unzippedFile;
 //        }
-//    }
+    }
 
     private Map<Short, Integer> countFrequencies(String pathOriginFile) throws IOException {
         Map<Short, Integer> frequencies = new HashMap<>();
