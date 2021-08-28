@@ -143,9 +143,14 @@ public class HuffmanCompressor {
             dataOutputStream.writeByte(codes.size());
 
             /*
-            * Write the code table
-            * first write symbol(write.Byte())
-            * second write symbol cod (create massive bytes from string code)*/
+             * Write the code table
+             * first write symbol(write.Byte())
+             * second write symbol cod (create massive bytes from string code)*/
+
+            for (Map.Entry<Short, String> entry : codes.entrySet()) {
+                dataOutputStream.writeByte(entry.getKey());
+                dataOutputStream.write(entry.getValue().getBytes());
+            }
 
             StringBuilder bits = new StringBuilder();
             int countBits = 0;
