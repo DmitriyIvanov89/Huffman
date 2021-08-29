@@ -180,7 +180,7 @@ public class HuffmanCompressor {
             int codesTableSize = dataInputStream.readByte();
 
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
+                codes.put(dataInputStream.readByte(), new String(dataInputStream.read()));
             }
 
             StringBuilder stringBuilder = new StringBuilder();
