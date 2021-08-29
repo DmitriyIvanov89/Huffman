@@ -153,7 +153,7 @@ public class HuffmanCompressor {
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
 
             dataOutputStream.writeByte(codes.size());
-
+            // associate a short with a number of bytes
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.writeByte(entry.getKey());
                 dataOutputStream.write(entry.getValue().getBytes());
@@ -179,14 +179,14 @@ public class HuffmanCompressor {
             Map<Byte, String> codes = new HashMap<>();
             int codesTableSize = dataInputStream.readByte();
 
-            for (int i = 0; i < codesTableSize; i++) {
-                codes.put(dataInputStream.readByte(), new String(dataInputStream.read()));
-            }
+//            for (int i = 0; i < codesTableSize; i++) {
+//                codes.put(dataInputStream.readByte(), new String(dataInputStream.read()));
+//            }
 
-            StringBuilder stringBuilder = new StringBuilder();
-            while (dataInputStream.available() > 0) {
-                stringBuilder.append(dataInputStream.read());
-            }
+//            StringBuilder stringBuilder = new StringBuilder();
+//            while (dataInputStream.available() > 0) {
+//                stringBuilder.append(dataInputStream.read());
+//            }
 
 //            HuffmanNode root = new HuffmanNode(null, 0);
 //            for (Map.Entry<Byte, Byte> entry : codes.entrySet()) {
