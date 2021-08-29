@@ -153,6 +153,7 @@ public class HuffmanCompressor {
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
 
             dataOutputStream.writeByte(codes.size());
+
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.writeByte(entry.getKey());
                 dataOutputStream.write(entry.getValue().getBytes());
@@ -175,11 +176,11 @@ public class HuffmanCompressor {
 
     private void decodeData(String pathToArchiveFile) throws IOException {
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            Map<Byte, Byte> codes = new HashMap<>();
+            Map<Byte, String> codes = new HashMap<>();
             int codesTableSize = dataInputStream.readByte();
 
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(dataInputStream.readByte(), dataInputStream.readByte());
+                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
             }
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -216,6 +217,6 @@ public class HuffmanCompressor {
         }
     }
 
-//    private void writeToUnzippedFile (String pathToUnzippedFile)throw IOException {
-//    }
+    private void writeToUnzippedFile(String pathToUnzippedFile) {
+    }
 }
