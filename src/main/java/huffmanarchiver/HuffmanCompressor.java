@@ -12,7 +12,7 @@ public class HuffmanCompressor {
         Map<Short, String> codes = new HashMap<>();
         fillCodesTable(root, "", codes);
         StringBuilder encodedData = encodeData(pathOriginFile, codes);
-        writeToFile(pathToArchivedFile, encodedData, codes);
+        writeEncodedDataToFile(pathToArchivedFile, encodedData, codes);
 
     }
 
@@ -20,18 +20,6 @@ public class HuffmanCompressor {
 
         decodeData(pathToArchiveFile);
 
-//            HuffmanNode currNode = root;
-//            for (int i = 0; i < encodedFromFile.length(); i++) {
-//                if (encodedFromFile.charAt(i) == '0') {
-//                    currNode = currNode.getLeft();
-//                } else {
-//                    currNode = currNode.getRight();
-//                }
-//                if (currNode.getNodeByte() != null) {
-//                    dataOutputStream.writeByte(currNode.getNodeByte());
-//                    currNode = root;
-//                }
-//            }
     }
 
     private Map<Short, Integer> countFrequencies(String pathOriginFile) throws IOException {
@@ -93,7 +81,7 @@ public class HuffmanCompressor {
         return stringBuilder;
     }
 
-    private void writeToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
+    private void writeEncodedDataToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
 
@@ -140,6 +128,7 @@ public class HuffmanCompressor {
             }
 
             HuffmanNode root = new HuffmanNode(null, 0);
+
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 HuffmanNode currNode = root;
                 for (int i = 0; i < entry.getValue().length(); i++) {
@@ -164,8 +153,30 @@ public class HuffmanCompressor {
                     }
                 }
             }
+
+            StringBuilder decoded = new StringBuilder();
+            while (dataInputStream.available() > 0) { // while datainputstream.read() != eof
+                decoded.append(codes.get(dataInputStream.read()));
+            }
+
+            System.out.println("end");
+
         }
     }
-//            private void writeToUnzippedFile(String pathToUnzippedFile) {
+
+//    private void writeDecodedDataToFile(String pathToUnzippedFile) {
 //    }
+//            HuffmanNode currNode = root;
+//            for (int i = 0; i < encodedFromFile.length(); i++) {
+//                if (encodedFromFile.charAt(i) == '0') {
+//                    currNode = currNode.getLeft();
+//                } else {
+//                    currNode = currNode.getRight();
+//                }
+//                if (currNode.getNodeByte() != null) {
+//                    dataOutputStream.writeByte(currNode.getNodeByte());
+//                    currNode = root;
+//                }
+//            }
+
 }
