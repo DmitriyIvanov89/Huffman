@@ -17,14 +17,6 @@ public class HuffmanCompressor {
     }
 
     public void unzip(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
-        /*
-        Refactor method
-        * 1. Read codes table size -- readDataFromArchivedFile
-        * 2. Read codes table(on size from 1 step) -- readDataFromArchivedFile
-        * 3. Read decoded data from file -- readDataFromArchivedFile
-        * 4. Create Huffman tree from codes table --
-        * 5. Walking the tree with decryption of data
-        */
 
         decodeData(pathToArchiveFile);
 
@@ -132,6 +124,7 @@ public class HuffmanCompressor {
     }
 
     private void decodeData(String pathToArchiveFile) throws IOException {
+
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
             Map<Short, String> codes = new HashMap<>();
             int codesTableSize = dataInputStream.readByte();
@@ -146,36 +139,33 @@ public class HuffmanCompressor {
                 codes.put(symbol, code);
             }
 
-            StringBuilder encodedData = new StringBuilder();
-            while (dataInputStream.available() > 0) {
-                encodedData.append(dataInputStream.read());
+            HuffmanNode root = new HuffmanNode(null, 0);
+            for (Map.Entry<Short, String> entry : codes.entrySet()) {
+                HuffmanNode currNode = root;
+                for (int i = 0; i < entry.getValue().length(); i++) {
+                    if (entry.getValue().charAt(i) == '1') {
+                        if (currNode.getRight() == null) {
+                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+                            currNode.setRight(newNode);
+                            currNode = newNode;
+                        } else {
+                            currNode = currNode.getRight();
+                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+                        }
+                    } else if (entry.getValue().charAt(i) == '0') {
+                        if (currNode.getLeft() == null) {
+                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
+                            currNode.setLeft(newNode);
+                            currNode = newNode;
+                        } else {
+                            currNode = currNode.getLeft();
+                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+                        }
+                    }
+                }
             }
 
-            HuffmanNode root = new HuffmanNode(null, 0);
-//            for (Map.Entry<Short, String> entry : codes.entrySet()) {
-//                HuffmanNode currNode = root;
-//                for (int i = 0; i < entry.getValue(); i++) {
-//                    if (entry.getValue().charAt(i) == '1') {
-//                        if (currNode.getRight() == null) {
-//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                            currNode.setRight(newNode);
-//                            currNode = newNode;
-//                        } else {
-//                            currNode = currNode.getRight();
-//                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                        }
-//                    } else if (entry.getValue().charAt(i) == '0') {
-//                        if (currNode.getLeft() == null) {
-//                            HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                            currNode.setLeft(newNode);
-//                            currNode = newNode;
-//                        } else {
-//                            currNode = currNode.getLeft();
-//                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                        }
-//                    }
-//                }
-//            }
+            System.out.println("end");
         }
     }
 //            private void writeToUnzippedFile(String pathToUnzippedFile) {
