@@ -43,7 +43,7 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
         this.right = right;
     }
 
-    public void setValue(short value) {
+    public void setValue(Short value) {
         this.value = value;
     }
 
