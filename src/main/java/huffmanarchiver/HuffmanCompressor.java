@@ -164,8 +164,6 @@ public class HuffmanCompressor {
                     }
                 }
             }
-
-            System.out.println("end");
         }
     }
 //            private void writeToUnzippedFile(String pathToUnzippedFile) {
