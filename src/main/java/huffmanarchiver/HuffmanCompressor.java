@@ -1,7 +1,6 @@
 package huffmanarchiver;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class HuffmanCompressor {
@@ -155,10 +154,13 @@ public class HuffmanCompressor {
 
             dataOutputStream.writeByte(codes.size());
 
-            // associate a short with a number of bytes
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
-                dataOutputStream.write(entry.getValue().getBytes());
+                byte[] codesBytes = entry.getValue().getBytes();
+                dataOutputStream.writeByte(codesBytes.length);
+                for (byte byteStr : codesBytes) {
+                    dataOutputStream.write(byteStr);
+                }
             }
 
             StringBuilder bits = new StringBuilder();
@@ -178,10 +180,17 @@ public class HuffmanCompressor {
 
     private void decodeData(String pathToArchiveFile) throws IOException {
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            Map<Byte, String> codes = new HashMap<>();
+            Map<Short, String> codes = new HashMap<>();
             int codesTableSize = dataInputStream.readByte();
             for (int i = 0; i < codesTableSize; i++) {
-                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
+                short symbol = dataInputStream.readByte();
+                byte codesSize = dataInputStream.readByte();
+                byte[] arr = new byte[codesSize];
+                for (int j = 0; j < codesSize; j++) {
+                    arr[j] = dataInputStream.readByte();
+                }
+                String code = new String(arr);
+                codes.put(symbol, code);
             }
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -216,8 +225,8 @@ public class HuffmanCompressor {
 //            }
 //        }
         }
-
-//    private void writeToUnzippedFile(String pathToUnzippedFile) {
-//    }
     }
+
+//        private void writeToUnzippedFile(String pathToUnzippedFile) {
+//    }
 }
