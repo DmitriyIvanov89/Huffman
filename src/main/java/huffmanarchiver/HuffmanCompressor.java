@@ -128,7 +128,6 @@ public class HuffmanCompressor {
             }
 
             HuffmanNode root = new HuffmanNode(null, 0);
-
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 HuffmanNode currNode = root;
                 for (int i = 0; i < entry.getValue().length(); i++) {
@@ -155,9 +154,6 @@ public class HuffmanCompressor {
             }
 
             StringBuilder decoded = new StringBuilder();
-            while (dataInputStream.available() > 0) { // while datainputstream.read() != eof
-                decoded.append(codes.get(dataInputStream.read()));
-            }
 
             System.out.println("end");
 
