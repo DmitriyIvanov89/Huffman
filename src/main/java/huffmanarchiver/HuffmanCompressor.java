@@ -28,50 +28,6 @@ public class HuffmanCompressor {
 
         decodeData(pathToArchiveFile);
 
-
-//        try (DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(new FileInputStream(archivedFile)));
-//             DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(unzippedFile)))) {
-//
-//            Map<Byte, String> codes = new HashMap<>();
-//
-//            int codesTableSize = dataInputStream.readInt();
-//            for (int i = 0; i < codesTableSize; i++) {
-//                codes.put(dataInputStream.readByte(), dataInputStream.readUTF());
-//            }
-//
-//            StringBuilder encodedFromFile = new StringBuilder();
-//
-//            while (dataInputStream.available() > 0) {
-//                encodedFromFile.append(dataInputStream.readLine());
-//            }
-//
-//            // refactor this method
-//        HuffmanNode root = new HuffmanNode(null, 0);
-//        for (Map.Entry<Byte, String> entry : codes.entrySet()) {
-//            HuffmanNode currNode = root;
-//            for (int i = 0; i < entry.getValue().length(); i++) {
-//                if (entry.getValue().charAt(i) == '1') {
-//                    if (currNode.getRight() == null) {
-//                        HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                        currNode.setRight(newNode);
-//                        currNode = newNode;
-//                    } else {
-//                        currNode = currNode.getRight();
-//                        currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                    }
-//                } else if (entry.getValue().charAt(i) == '0') {
-//                    if (currNode.getLeft() == null) {
-//                        HuffmanNode newNode = new HuffmanNode(i == entry.getValue().length() - 1 ? entry.getKey() : null, 0);
-//                        currNode.setLeft(newNode);
-//                        currNode = newNode;
-//                    } else {
-//                        currNode = currNode.getLeft();
-//                        currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
-//                    }
-//                }
-//            }
-//        }
-//
 //            HuffmanNode currNode = root;
 //            for (int i = 0; i < encodedFromFile.length(); i++) {
 //                if (encodedFromFile.charAt(i) == '0') {
@@ -84,9 +40,6 @@ public class HuffmanCompressor {
 //                    currNode = root;
 //                }
 //            }
-//
-//            return unzippedFile;
-//        }
     }
 
     private Map<Short, Integer> countFrequencies(String pathOriginFile) throws IOException {
@@ -193,13 +146,13 @@ public class HuffmanCompressor {
                 codes.put(symbol, code);
             }
 
-            StringBuilder stringBuilder = new StringBuilder();
-//            while (dataInputStream.available() > 0) {
-//                stringBuilder.append(dataInputStream.read());
-//            }
+            StringBuilder encodedData = new StringBuilder();
+            while (dataInputStream.available() > 0) {
+                encodedData.append(dataInputStream.read());
+            }
 
-//            HuffmanNode root = new HuffmanNode(null, 0);
-//            for (Map.Entry<Byte, String> entry : codes.entrySet()) {
+            HuffmanNode root = new HuffmanNode(null, 0);
+//            for (Map.Entry<Short, String> entry : codes.entrySet()) {
 //                HuffmanNode currNode = root;
 //                for (int i = 0; i < entry.getValue(); i++) {
 //                    if (entry.getValue().charAt(i) == '1') {
@@ -209,7 +162,7 @@ public class HuffmanCompressor {
 //                            currNode = newNode;
 //                        } else {
 //                            currNode = currNode.getRight();
-//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+//                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
 //                        }
 //                    } else if (entry.getValue().charAt(i) == '0') {
 //                        if (currNode.getLeft() == null) {
@@ -218,15 +171,13 @@ public class HuffmanCompressor {
 //                            currNode = newNode;
 //                        } else {
 //                            currNode = currNode.getLeft();
-//                            currNode.setNodeByte(i == entry.getValue().length() - 1 ? entry.getKey() : null);
+//                            currNode.setValue(i == entry.getValue().length() - 1 ? entry.getKey() : null);
 //                        }
 //                    }
 //                }
 //            }
-//        }
         }
     }
-
-//        private void writeToUnzippedFile(String pathToUnzippedFile) {
+//            private void writeToUnzippedFile(String pathToUnzippedFile) {
 //    }
 }
