@@ -153,10 +153,10 @@ public class HuffmanCompressor {
                 }
             }
 
-            StringBuilder decoded = new StringBuilder();
-
-            System.out.println("end");
-
+            StringBuilder encoded = new StringBuilder();
+            while (dataInputStream.available() > 0) {
+                encoded.append(Integer.toBinaryString(dataInputStream.read()));
+            }
         }
     }
 
