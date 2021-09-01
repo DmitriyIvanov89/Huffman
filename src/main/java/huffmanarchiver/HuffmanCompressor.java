@@ -109,7 +109,6 @@ public class HuffmanCompressor {
                     countBits = 0;
                 }
             }
-            System.out.println("end");
         }
     }
 
@@ -129,13 +128,10 @@ public class HuffmanCompressor {
                 codes.put(symbol, code);
             }
 
-            // ???
             StringBuilder encoded = new StringBuilder();
             while (dataInputStream.available() > 0) {
-                encoded.append(String.format("%8s", Integer.toBinaryString(dataInputStream.readByte() & 0xff).replace(" ", "0")));
+                encoded.append(Integer.toBinaryString(dataInputStream.read())); // & 0xff
             }
-
-            System.out.println("end");
 
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
@@ -183,5 +179,5 @@ public class HuffmanCompressor {
 //                }
 //            }
 //        }
-//    }
+
 }
