@@ -70,12 +70,15 @@ public class HuffmanCompressor {
     private StringBuilder encodeData(String pathOriginFile, Map<Short, String> codes) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathOriginFile))) {
-            while (dataInputStream.available() > 1) {
+            while (dataInputStream.available() > 0) {
                 short symbol = dataInputStream.readByte();
                 stringBuilder.append(codes.get(symbol));
             }
+            int counter = 0;
+            for (int length = stringBuilder.length(), delta = 8 - stringBuilder.length() % 8; counter < delta; counter++) {
+                stringBuilder.append("0");
+            }
         }
-
         return stringBuilder;
     }
 
@@ -129,6 +132,8 @@ public class HuffmanCompressor {
             while (dataInputStream.available() > 0) {
                 encoded.append(Integer.toBinaryString(dataInputStream.read()));
             }
+
+            System.out.println("end");
 
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
