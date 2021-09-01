@@ -43,8 +43,6 @@ public class HuffmanCompressor {
         for (Map.Entry<Short, Integer> entry : frequencies.entrySet()) {
             nodes.add(new HuffmanNode(entry.getKey(), entry.getValue()));
         }
-        HuffmanNode eof = new HuffmanNode(Short.MAX_VALUE, -1);
-        nodes.add(eof);
 
         while (nodes.size() > 1) {
             Collections.sort(nodes);
@@ -77,7 +75,7 @@ public class HuffmanCompressor {
                 stringBuilder.append(codes.get(symbol));
             }
         }
-        stringBuilder.append(codes.get(Short.MAX_VALUE));
+
         return stringBuilder;
     }
 
@@ -127,6 +125,11 @@ public class HuffmanCompressor {
                 codes.put(symbol, code);
             }
 
+            StringBuilder encoded = new StringBuilder();
+            while (dataInputStream.available() > 0) {
+                encoded.append(Integer.toBinaryString(dataInputStream.read()));
+            }
+
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 HuffmanNode currNode = root;
@@ -153,10 +156,6 @@ public class HuffmanCompressor {
                 }
             }
 
-            StringBuilder encoded = new StringBuilder();
-            while (dataInputStream.available() > 0) {
-                encoded.append(Integer.toBinaryString(dataInputStream.read()));
-            }
         }
     }
 
