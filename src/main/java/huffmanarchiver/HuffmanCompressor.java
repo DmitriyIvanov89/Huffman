@@ -162,17 +162,21 @@ public class HuffmanCompressor {
             try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToUnzippedFile))) {
 
                 HuffmanNode currNode = root;
+                int count = 0;
                 for (int i = 0; i < encoded.length(); i++) {
+                    count++;
                     if (encoded.charAt(i) == '0') {
                         currNode = currNode.getLeft();
                     } else {
                         currNode = currNode.getRight();
                     }
                     if (currNode.getValue() != null) {
-                        dataOutputStream.write(currNode.getValue());
+                        System.out.println(encoded.charAt(i));
+                        dataOutputStream.writeByte(currNode.getValue());
                         currNode = root;
                     }
                 }
+                System.out.println("end");
             }
         }
     }
