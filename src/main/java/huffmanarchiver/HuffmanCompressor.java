@@ -18,7 +18,7 @@ public class HuffmanCompressor {
 
     public void unzip(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
 
-        decodeData(pathToArchiveFile);
+        decodeData(pathToArchiveFile, pathToUnzippedFile);
 
     }
 
@@ -112,7 +112,7 @@ public class HuffmanCompressor {
         }
     }
 
-    private void decodeData(String pathToArchiveFile) throws IOException {
+    private void decodeData(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
 
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
             Map<Short, String> codes = new HashMap<>();
@@ -130,7 +130,8 @@ public class HuffmanCompressor {
 
             StringBuilder encoded = new StringBuilder();
             while (dataInputStream.available() > 0) {
-                encoded.append(Integer.toBinaryString(dataInputStream.read()).replace("0", " "));
+                String binary = String.format("%8s", Integer.toBinaryString(dataInputStream.read())).replace(' ', '0');
+                encoded.append(binary);
             }
 
             HuffmanNode root = new HuffmanNode(null, 0);
@@ -158,7 +159,21 @@ public class HuffmanCompressor {
                     }
                 }
             }
-            
+            try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToUnzippedFile))) {
+
+                HuffmanNode currNode = root;
+                for (int i = 0; i < encoded.length(); i++) {
+                    if (encoded.charAt(i) == '0') {
+                        currNode = currNode.getLeft();
+                    } else {
+                        currNode = currNode.getRight();
+                    }
+                    if (currNode.getValue() != null) {
+                        dataOutputStream.write(currNode.getValue());
+                        currNode = root;
+                    }
+                }
+            }
         }
     }
 
