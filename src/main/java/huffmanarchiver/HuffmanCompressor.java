@@ -74,8 +74,8 @@ public class HuffmanCompressor {
                 short symbol = dataInputStream.readByte();
                 stringBuilder.append(codes.get(symbol));
             }
-            int counter = 0;
-            for (int length = stringBuilder.length(), delta = 8 - stringBuilder.length() % 8; counter < delta; counter++) {
+            int zeroCount = 0;
+            for (int length = stringBuilder.length(), delta = 8 - stringBuilder.length() % 8; zeroCount < delta; zeroCount++) {
                 stringBuilder.append("0");
             }
         }
