@@ -130,7 +130,7 @@ public class HuffmanCompressor {
 
             StringBuilder encoded = new StringBuilder();
             while (dataInputStream.available() > 0) {
-                encoded.append(Integer.toBinaryString(dataInputStream.read())); // & 0xff
+                encoded.append(Integer.toBinaryString(dataInputStream.read()).replace("0", " "));
             }
 
             HuffmanNode root = new HuffmanNode(null, 0);
@@ -158,6 +158,7 @@ public class HuffmanCompressor {
                     }
                 }
             }
+            
         }
     }
 
