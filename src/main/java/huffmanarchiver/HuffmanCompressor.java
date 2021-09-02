@@ -74,10 +74,6 @@ public class HuffmanCompressor {
                 short symbol = dataInputStream.readByte();
                 stringBuilder.append(codes.get(symbol));
             }
-            int zeroCount = 0;
-            for (int length = stringBuilder.length(), delta = 8 - stringBuilder.length() % 8; zeroCount < delta; zeroCount++) {
-                stringBuilder.append("0");
-            }
         }
         return stringBuilder;
     }
@@ -85,6 +81,13 @@ public class HuffmanCompressor {
     private void writeEncodedDataToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
+
+            int zeroCount = 0;
+            for (int length = encodedData.length(), delta = 8 - encodedData.length() % 8; zeroCount < delta; zeroCount++) {
+                encodedData.append("0");
+            }
+
+            dataOutputStream.writeByte(zeroCount);
 
             dataOutputStream.writeByte(codes.size());
 
@@ -116,6 +119,7 @@ public class HuffmanCompressor {
 
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
             Map<Short, String> codes = new HashMap<>();
+            int addedZero = dataInputStream.readByte();
             int codesTableSize = dataInputStream.readByte();
             for (int i = 0; i < codesTableSize; i++) {
                 short symbol = dataInputStream.readByte();
@@ -163,7 +167,7 @@ public class HuffmanCompressor {
 
                 HuffmanNode currNode = root;
                 int count = 0;
-                for (int i = 0; i < encoded.length(); i++) {
+                for (int i = 0; i < encoded.length() - addedZero; i++) {
                     count++;
                     if (encoded.charAt(i) == '0') {
                         currNode = currNode.getLeft();
@@ -171,12 +175,10 @@ public class HuffmanCompressor {
                         currNode = currNode.getRight();
                     }
                     if (currNode.getValue() != null) {
-                        System.out.println(encoded.charAt(i));
                         dataOutputStream.writeByte(currNode.getValue());
                         currNode = root;
                     }
                 }
-                System.out.println("end");
             }
         }
     }
