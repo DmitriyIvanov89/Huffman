@@ -18,15 +18,16 @@ public class HuffmanCompressor {
 
     public void unzip(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
 
-        int addedZero = getAddedZeroNumber(pathToArchiveFile);
-        Map<Short, String> codes = new HashMap<>();
-        fillCodesTableFromFile(pathToArchiveFile, codes);
-        int codesTableSize = codes.size();
-        StringBuilder encodedData = fillEncodedData(pathToArchiveFile, codesTableSize);
-        HuffmanNode root = generateTreeFromCodes(codes);
-        writeUnzipDataToFile(pathToUnzippedFile, root, addedZero, encodedData);
-        System.out.println("end");
+        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
+            int addedZero = getAddedZeroNumber(dataInputStream);
+            Map<Short, String> codes = new HashMap<>();
+            fillCodesTableFromFile(dataInputStream, codes);
+            int codesTableSize = codes.size();
+            StringBuilder encodedData = fillEncodedData(dataInputStream, codesTableSize);
+            HuffmanNode root = generateTreeFromCodes(codes);
+            writeUnzipDataToFile(pathToUnzippedFile, root, addedZero, encodedData);
 
+        }
     }
 
     private Map<Short, Integer> countFrequencies(String pathOriginFile) throws IOException {
@@ -95,7 +96,6 @@ public class HuffmanCompressor {
 
             dataOutputStream.writeByte(zeroCount);
             dataOutputStream.writeByte(codes.size());
-
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 dataOutputStream.write(entry.getKey());
                 byte[] codesBytes = entry.getValue().getBytes();
@@ -120,41 +120,29 @@ public class HuffmanCompressor {
         }
     }
 
-    private int getAddedZeroNumber(String pathToArchiveFile) throws IOException {
-        int addedZero;
-        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            addedZero = dataInputStream.readByte();
-        }
-
-        return addedZero;
+    private int getAddedZeroNumber(DataInputStream dataInputStream) throws IOException {
+        return dataInputStream.readByte();
     }
 
-    private void fillCodesTableFromFile(String pathToArchiveFile, Map<Short, String> codes) throws IOException {
-        int codesTableSize;
-        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            dataInputStream.skipBytes(1);
-            codesTableSize = dataInputStream.readByte();
-            for (int i = 0; i < codesTableSize; i++) {
-                short symbol = dataInputStream.readByte();
-                byte codesSize = dataInputStream.readByte();
-                byte[] arr = new byte[codesSize];
-                for (int j = 0; j < codesSize; j++) {
-                    arr[j] = dataInputStream.readByte();
-                }
-                String code = new String(arr);
-                codes.put(symbol, code);
+    private void fillCodesTableFromFile(DataInputStream dataInputStream, Map<Short, String> codes) throws IOException {
+        int codesTableSize = dataInputStream.readByte();
+        for (int i = 0; i < codesTableSize; i++) {
+            short symbol = dataInputStream.readByte();
+            byte codesSize = dataInputStream.readByte();
+            byte[] arr = new byte[codesSize];
+            for (int j = 0; j < codesSize; j++) {
+                arr[j] = dataInputStream.readByte();
             }
+            String code = new String(arr);
+            codes.put(symbol, code);
         }
     }
 
-    private StringBuilder fillEncodedData(String pathToArchiveFile, int codesTableSize) throws IOException {
+    private StringBuilder fillEncodedData(DataInputStream dataInputStream, int codesTableSize) throws IOException {
         StringBuilder encodedData = new StringBuilder();
-        try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            dataInputStream.skipBytes(1 + codesTableSize);
-            while (dataInputStream.available() > 0) {
-                String binary = String.format("%8s", Integer.toBinaryString(dataInputStream.read())).replace(' ', '0');
-                encodedData.append(binary);
-            }
+        while (dataInputStream.available() > 0) {
+            String binary = String.format("%8s", Integer.toBinaryString(dataInputStream.read())).replace(' ', '0');
+            encodedData.append(binary);
         }
         return encodedData;
     }
@@ -204,7 +192,6 @@ public class HuffmanCompressor {
                     currNode = root;
                 }
             }
-
         }
     }
 }
