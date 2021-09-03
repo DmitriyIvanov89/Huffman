@@ -90,7 +90,7 @@ public class HuffmanCompressor {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
             int zeroCount = 0;
-            for (int length = encodedData.length(), delta = 8 - encodedData.length() % 8; zeroCount < delta; zeroCount++) {
+            for (int length = encodedData.length(), delta = 8 - length % 8; zeroCount < delta; zeroCount++) {
                 encodedData.append("0");
             }
 
