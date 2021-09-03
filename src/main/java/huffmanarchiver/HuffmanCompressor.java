@@ -116,7 +116,7 @@ public class HuffmanCompressor {
     }
 
     private void decodeData(String pathToArchiveFile, String pathToUnzippedFile) throws IOException {
-        // method decodeData(pathToArchivedFile) --
+        // method decodeData(pathToArchivedFile) -- return codes
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
             Map<Short, String> codes = new HashMap<>();
             int addedZero = dataInputStream.readByte();
@@ -137,7 +137,7 @@ public class HuffmanCompressor {
                 String binary = String.format("%8s", Integer.toBinaryString(dataInputStream.read())).replace(' ', '0');
                 encoded.append(binary);
             }
-
+            // generate Tree from codesTable method (codes) -- return root
             HuffmanNode root = new HuffmanNode(null, 0);
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
                 HuffmanNode currNode = root;
@@ -163,6 +163,7 @@ public class HuffmanCompressor {
                     }
                 }
             }
+            // write to file method (root, encoded, addedZero) -- void
             try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToUnzippedFile))) {
 
                 HuffmanNode currNode = root;
