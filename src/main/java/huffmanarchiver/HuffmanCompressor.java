@@ -20,11 +20,12 @@ public class HuffmanCompressor {
 
         int addedZero = getAddedZeroNumber(pathToArchiveFile);
         Map<Short, String> codes = new HashMap<>();
-        fillCodesTableFromFile(pathToArchiveFile, codes, addedZero);
+        fillCodesTableFromFile(pathToArchiveFile, codes);
         int codesTableSize = codes.size();
-        StringBuilder encodedData = fillEncodedData(pathToArchiveFile, addedZero, codesTableSize);
+        StringBuilder encodedData = fillEncodedData(pathToArchiveFile, codesTableSize);
         HuffmanNode root = generateTreeFromCodes(codes);
         writeUnzipDataToFile(pathToUnzippedFile, root, addedZero, encodedData);
+        System.out.println("end");
 
     }
 
@@ -87,14 +88,12 @@ public class HuffmanCompressor {
     private void writeEncodedDataToFile(String pathToArchivedFile, StringBuilder encodedData, Map<Short, String> codes) throws IOException {
 
         try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(pathToArchivedFile))) {
-
             int zeroCount = 0;
             for (int length = encodedData.length(), delta = 8 - encodedData.length() % 8; zeroCount < delta; zeroCount++) {
                 encodedData.append("0");
             }
 
             dataOutputStream.writeByte(zeroCount);
-
             dataOutputStream.writeByte(codes.size());
 
             for (Map.Entry<Short, String> entry : codes.entrySet()) {
@@ -130,10 +129,10 @@ public class HuffmanCompressor {
         return addedZero;
     }
 
-    private void fillCodesTableFromFile(String pathToArchiveFile, Map<Short, String> codes, int skipBytes) throws IOException {
+    private void fillCodesTableFromFile(String pathToArchiveFile, Map<Short, String> codes) throws IOException {
         int codesTableSize;
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            dataInputStream.skipBytes(skipBytes);
+            dataInputStream.skipBytes(1);
             codesTableSize = dataInputStream.readByte();
             for (int i = 0; i < codesTableSize; i++) {
                 short symbol = dataInputStream.readByte();
@@ -148,11 +147,10 @@ public class HuffmanCompressor {
         }
     }
 
-    private StringBuilder fillEncodedData(String pathToArchiveFile, int addedZero, int codesTableSize) throws IOException {
-        int skipBytes = addedZero + codesTableSize;
+    private StringBuilder fillEncodedData(String pathToArchiveFile, int codesTableSize) throws IOException {
         StringBuilder encodedData = new StringBuilder();
         try (DataInputStream dataInputStream = new DataInputStream(new FileInputStream(pathToArchiveFile))) {
-            dataInputStream.skipBytes(skipBytes);
+            dataInputStream.skipBytes(1 + codesTableSize);
             while (dataInputStream.available() > 0) {
                 String binary = String.format("%8s", Integer.toBinaryString(dataInputStream.read())).replace(' ', '0');
                 encodedData.append(binary);
